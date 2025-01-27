@@ -1,4 +1,4 @@
-package com.example.sellyongdan_frontend.ui.theme
+package com.example.seollyongdan_frontend.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

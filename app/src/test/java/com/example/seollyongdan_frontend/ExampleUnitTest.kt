@@ -1,4 +1,4 @@
-package com.example.sellyongdan_frontend
+package com.example.seollyongdan_frontend
 
 import org.junit.Test
 

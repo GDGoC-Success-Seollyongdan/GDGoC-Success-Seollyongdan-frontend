@@ -1,6 +1,5 @@
-package com.example.sellyongdan_frontend.ui.theme
+package com.example.seollyongdan_frontend.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
