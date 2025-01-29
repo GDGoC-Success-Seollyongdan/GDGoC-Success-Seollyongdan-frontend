@@ -1,3 +1,21 @@
 package com.example.seollyongdan_frontend.presentation.auth.navigation
 
-//회원가입 및 로그인 관련 navgraph
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.compose.composable
+import com.example.seollyongdan_frontend.presentation.auth.screen.SignUpRoute
+
+fun NavGraphBuilder.loginNavGraph(
+    navigator: AuthNavigator
+){
+    composable(route = "login"){
+        LoginRoute(navigator = navigator)
+    }
+}
+
+fun NavGraphBuilder.signUpNavGraph(
+    navigator: AuthNavigator
+){
+    composable(route = "signup"){
+        SignUpRoute(navigator = navigator)
+    }
+}

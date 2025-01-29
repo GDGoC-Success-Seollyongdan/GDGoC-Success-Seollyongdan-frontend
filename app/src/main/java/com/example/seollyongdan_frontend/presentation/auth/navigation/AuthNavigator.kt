@@ -1,3 +1,27 @@
 package com.example.seollyongdan_frontend.presentation.auth.navigation
 
-//회원가입 및 로그인 관련 navigator
+import androidx.navigation.NavController
+
+class AuthNavigator(
+    val navController: NavController
+){
+    fun navigateBack(){
+        navController.popBackStack()
+    }
+
+    fun navigateLogin(){
+        navController.navigate(route = "login")
+    }
+
+    fun navigateMain(){
+        navController.navigate(route = "main"){
+            popUpTo(0){
+                inclusive = true
+            }
+        }
+    }
+
+    fun navigateSignUp(){
+        navController.navigate(route = "signup")
+    }
+}
