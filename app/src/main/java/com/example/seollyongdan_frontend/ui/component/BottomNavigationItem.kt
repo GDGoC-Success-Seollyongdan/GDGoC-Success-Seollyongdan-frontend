@@ -1,4 +1,4 @@
-package com.example.seollyongdan_frontend.core_ui.component
+package com.example.seollyongdan_frontend.ui.component
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.DarkGray

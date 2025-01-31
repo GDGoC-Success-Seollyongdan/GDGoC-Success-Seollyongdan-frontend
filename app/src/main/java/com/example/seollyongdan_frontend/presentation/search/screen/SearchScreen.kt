@@ -1,10 +1,10 @@
-package com.example.seollyongdan_frontend.presentation.search.navigation
+package com.example.seollyongdan_frontend.presentation.search.screen
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
-import com.example.seollyongdan_frontend.presentation.guide.navigation.GuideNavigator
+import com.example.seollyongdan_frontend.presentation.search.navigation.SearchNavigator
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable

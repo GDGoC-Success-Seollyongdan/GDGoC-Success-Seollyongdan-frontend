@@ -7,6 +7,8 @@ import com.example.seollyongdan_frontend.presentation.guide.navigation.GuideNavi
 import com.example.seollyongdan_frontend.presentation.home.navigation.HomeNavigator
 import com.example.seollyongdan_frontend.presentation.mypage.navigation.MypageNavigator
 import com.example.seollyongdan_frontend.presentation.search.navigation.SearchNavigator
+import com.example.seollyongdan_frontend.presentation.main.screen.MainRoute
+
 
 fun NavGraphBuilder.mainNavGraph(
     mainNavigator: MainNavigator,

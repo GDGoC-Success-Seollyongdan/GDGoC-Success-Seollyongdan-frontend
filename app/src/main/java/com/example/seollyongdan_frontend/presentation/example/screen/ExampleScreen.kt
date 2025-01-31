@@ -19,7 +19,7 @@ import com.example.seollyongdan_frontend.domain.entity.ExampleEntity
 import com.example.seollyongdan_frontend.presentation.example.navigation.ExampleNavigator
 import com.example.seollyongdan_frontend.presentation.example.screen.ExampleItem
 import com.example.seollyongdan_frontend.presentation.example.screen.ExampleViewModel
-import com.example.seollyongdan_frontend.ui.theme.SellyongdanfrontendTheme
+import com.example.seollyongdan_frontend.ui.theme.SeollyongdanfrontendTheme
 import com.example.seollyongdan_frontend.util.UiState
 
 @Composable
@@ -79,7 +79,7 @@ fun ExampleScreen(
 @Preview(showBackground = true)
 @Composable
 fun ExampleScreenPreview() {
-    SellyongdanfrontendTheme {
+    SeollyongdanfrontendTheme {
         ExampleScreen(
             exampleViewModel = hiltViewModel()
         )

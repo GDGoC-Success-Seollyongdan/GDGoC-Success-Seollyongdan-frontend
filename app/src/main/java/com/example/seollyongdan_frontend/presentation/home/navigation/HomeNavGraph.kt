@@ -2,6 +2,8 @@ package com.example.seollyongdan_frontend.presentation.home.navigation
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import com.example.seollyongdan_frontend.presentation.home.screen.HomeRoute
+
 
 fun NavGraphBuilder.homeNavGraph(
     navigator: HomeNavigator

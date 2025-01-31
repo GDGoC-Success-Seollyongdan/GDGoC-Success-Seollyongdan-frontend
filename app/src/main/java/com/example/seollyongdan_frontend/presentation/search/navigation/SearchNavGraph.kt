@@ -2,6 +2,8 @@ package com.example.seollyongdan_frontend.presentation.search.navigation
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import com.example.seollyongdan_frontend.presentation.search.screen.SearchRoute
+
 
 fun NavGraphBuilder.searchNavGraph(
     navigator: SearchNavigator
