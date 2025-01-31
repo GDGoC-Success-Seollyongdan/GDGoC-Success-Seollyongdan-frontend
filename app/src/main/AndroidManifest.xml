@@ -22,14 +22,14 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Sellyongdanfrontend"
+        android:theme="@style/Theme.Seollyongdanfrontend"
 	android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name="com.example.seollyongdan_frontend.presentation.main.screen.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.Sellyongdanfrontend">
+            android:theme="@style/Theme.Seollyongdanfrontend">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
