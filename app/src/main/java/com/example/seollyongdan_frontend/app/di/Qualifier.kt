@@ -1,4 +1,4 @@
-package com.example.seollyongdan_frontend.app
+package com.example.seollyongdan_frontend.app.di
 
 import javax.inject.Qualifier
 

@@ -1,5 +1,7 @@
-package com.example.seollyongdan_frontend.app
+package com.example.seollyongdan_frontend.app.di
 
+import com.example.seollyongdan_frontend.BuildConfig
+import com.example.seollyongdan_frontend.app.RegionInterceptor
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
@@ -16,6 +18,49 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object RetrofitModule {
+
+    private const val REGION_BASE_URL = "api.odcloud.kr/api"
+
+    @Provides
+    @Singleton
+    fun provideApiKey(): String {
+        return BuildConfig.REGION_API_KEY // Gradle에서 불러온 API 키
+    }
+
+    @Provides
+    @Singleton
+    fun provideRegionInterceptor(apiKey: String): RegionInterceptor {
+        return RegionInterceptor(apiKey)
+    }
+
+    @Provides
+    @Singleton
+    fun provideOkHttpClient(regionInterceptor: RegionInterceptor): OkHttpClient {
+        return OkHttpClient.Builder()
+            .addInterceptor(regionInterceptor) // 모든 요청에 API 키 자동 추가
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideRetrofit(client: OkHttpClient): Retrofit {
+        val json = Json { ignoreUnknownKeys = true }
+        return Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .client(client)
+            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
+            .build()
+    }
+}
+
+
+
+
+
+
+
+
+
 
     @Provides
     fun provideLoggingInterceptor(): HttpLoggingInterceptor {

@@ -1,6 +1,7 @@
-package com.example.seollyongdan_frontend.app
+package com.example.seollyongdan_frontend.app.di
 
 import com.example.seollyongdan_frontend.data.service.ExampleApiService
+import com.example.seollyongdan_frontend.data.service.RegionApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,7 +15,7 @@ object ServiceModule {
 
     @Provides
     @Singleton
-    fun provideExampleService(
-        @SeollyongdanRetrofit retrofit: Retrofit
-    ): ExampleApiService = retrofit.create(ExampleApiService::class.java)
+    fun provideRegionApiService(retrofit: Retrofit): RegionApiService {
+        return retrofit.create(RegionApiService::class.java)
+    }
 }
