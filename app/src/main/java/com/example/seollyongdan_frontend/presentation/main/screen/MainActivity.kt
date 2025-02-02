@@ -1,4 +1,4 @@
-package com.example.seollyongdan_frontend
+package com.example.seollyongdan_frontend.presentation.main.screen
 
 import android.app.Activity
 import android.os.Bundle
@@ -30,7 +30,7 @@ import com.example.seollyongdan_frontend.presentation.main.navigation.MainNaviga
 import com.example.seollyongdan_frontend.presentation.mypage.navigation.MypageNavigator
 import com.example.seollyongdan_frontend.presentation.navigator.SeollyondanNavHost
 import com.example.seollyongdan_frontend.presentation.search.navigation.SearchNavigator
-import com.example.seollyongdan_frontend.ui.theme.SellyongdanfrontendTheme
+import com.example.seollyongdan_frontend.ui.theme.SeollyongdanfrontendTheme
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -40,7 +40,7 @@ class MainActivity : ComponentActivity() {
         installSplashScreen()
         super.onCreate(savedInstanceState)
         setContent {
-            SellyongdanfrontendTheme {
+            SeollyongdanfrontendTheme {
                 val context = LocalContext.current
                 var backPressedState by remember { mutableStateOf(true) }
                 var backPressedTime = 0L

@@ -1,11 +1,11 @@
-package com.example.seollyongdan_frontend.presentation.home.navigation
+package com.example.seollyongdan_frontend.presentation.home.screen
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
-import com.example.seollyongdan_frontend.presentation.guide.navigation.GuideNavigator
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.example.seollyongdan_frontend.presentation.home.navigation.HomeNavigator
 
 @Composable
 fun HomeRoute(

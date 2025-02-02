@@ -8,8 +8,8 @@ import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.seollyongdan_frontend.presentation.auth.navigation.AuthNavigator
-import com.example.seollyongdan_frontend.presentation.auth.navigation.LoginScreen
-import com.example.seollyongdan_frontend.ui.theme.SellyongdanfrontendTheme
+import com.example.seollyongdan_frontend.presentation.auth.screen.LoginScreen
+import com.example.seollyongdan_frontend.ui.theme.SeollyongdanfrontendTheme
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
@@ -41,7 +41,7 @@ fun SignUpScreen(
 @Preview
 @Composable
 fun SignUpScreenPreview() {
-    SellyongdanfrontendTheme  {
+    SeollyongdanfrontendTheme  {
         SignUpScreen(
             onNextClick = {}
         )

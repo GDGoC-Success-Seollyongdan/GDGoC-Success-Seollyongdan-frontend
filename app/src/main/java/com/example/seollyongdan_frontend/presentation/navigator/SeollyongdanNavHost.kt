@@ -10,7 +10,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.seollyongdan_frontend.presentation.auth.navigation.AuthNavigator
-import com.example.seollyongdan_frontend.presentation.auth.navigation.LoginScreen
 import com.example.seollyongdan_frontend.presentation.auth.navigation.loginNavGraph
 import com.example.seollyongdan_frontend.presentation.auth.navigation.signUpNavGraph
 import com.example.seollyongdan_frontend.presentation.auth.screen.SplashScreen

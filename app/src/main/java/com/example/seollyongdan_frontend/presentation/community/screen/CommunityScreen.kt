@@ -1,9 +1,10 @@
-package com.example.seollyongdan_frontend.presentation.community.navigation
+package com.example.seollyongdan_frontend.presentation.community.screen
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.graphics.Color
+import com.example.seollyongdan_frontend.presentation.community.navigation.CommunityNavigator
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable

@@ -1,4 +1,4 @@
-package com.example.seollyongdan_frontend.presentation.main.navigation
+package com.example.seollyongdan_frontend.presentation.main.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -27,18 +27,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.seollyongdan_frontend.R
-import com.example.seollyongdan_frontend.core_ui.component.BottomNavigationItem
+import com.example.seollyongdan_frontend.ui.component.BottomNavigationItem
 import com.example.seollyongdan_frontend.presentation.community.navigation.CommunityNavigator
-import com.example.seollyongdan_frontend.presentation.community.navigation.CommunityRoute
+import com.example.seollyongdan_frontend.presentation.community.screen.CommunityRoute
 import com.example.seollyongdan_frontend.presentation.guide.navigation.GuideNavigator
-import com.example.seollyongdan_frontend.presentation.guide.navigation.GuideRoute
+import com.example.seollyongdan_frontend.presentation.guide.screen.GuideRoute
 import com.example.seollyongdan_frontend.presentation.home.navigation.HomeNavigator
-import com.example.seollyongdan_frontend.presentation.home.navigation.HomeRoute
+import com.example.seollyongdan_frontend.presentation.home.screen.HomeRoute
+import com.example.seollyongdan_frontend.presentation.main.navigation.MainNavigator
 import com.example.seollyongdan_frontend.presentation.mypage.navigation.MypageNavigator
-import com.example.seollyongdan_frontend.presentation.mypage.navigation.MypageRoute
+import com.example.seollyongdan_frontend.presentation.mypage.screen.MypageRoute
 import com.example.seollyongdan_frontend.presentation.search.navigation.SearchNavigator
-import com.example.seollyongdan_frontend.presentation.search.navigation.SearchRoute
-import com.example.seollyongdan_frontend.ui.theme.SellyongdanfrontendTheme
+import com.example.seollyongdan_frontend.presentation.search.screen.SearchRoute
+import com.example.seollyongdan_frontend.ui.theme.SeollyongdanfrontendTheme
 
 @Composable
 fun MainRoute(
@@ -154,7 +155,7 @@ private object NoRippleTheme : RippleTheme {
 @Preview
 @Composable
 fun MainScreenPreview() {
-    SellyongdanfrontendTheme  {
+    SeollyongdanfrontendTheme  {
         MainScreen(
             navController = rememberNavController()
         )
