@@ -16,11 +16,13 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 abstract class DataSourceModule {
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideRemoteDistrictDataSource(
-        regionApiService: RegionApiService
-    ): RegionDataSource {
-        return RegionDataSourceImpl(regionApiService)
-    }
+    abstract fun bindRemoteRegionDataSource(
+        regionDataSourceImpl: RegionDataSourceImpl
+    ) : RegionDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindExampleDataSource(exampleDataSourceImpl: ExampleDataSourceImpl): ExampleDataSource
 }

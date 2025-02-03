@@ -16,11 +16,13 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 abstract class RepositoryModule {
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideRegionRepository(
-        regionDataSource: RegionDataSource
-    ): RegionRepository {
-        return RegionRepositoryImpl(regionDataSource)
-    }
+    abstract fun bindRegionRepository(
+        regionRepositoryImpl: RegionRepositoryImpl
+    ) : RegionRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindExampleRepository(exampleRepositoryImpl: ExampleRepositoryImpl): ExampleRepository
 }

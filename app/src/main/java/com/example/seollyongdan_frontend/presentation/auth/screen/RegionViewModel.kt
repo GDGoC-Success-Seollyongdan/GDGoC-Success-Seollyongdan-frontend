@@ -18,7 +18,7 @@ class RegionViewModel @Inject constructor(
     private val _regions = MutableStateFlow<List<RegionDto>>(emptyList())
     val regions: StateFlow<List<RegionDto>> = _regions
 
-    fun fetcRegions(page: Int, perPage: Int) {
+    fun fetchRegions(page: Int, perPage: Int) {
         viewModelScope.launch {
             _regions.value = repository.getRegions(page, perPage)
         }

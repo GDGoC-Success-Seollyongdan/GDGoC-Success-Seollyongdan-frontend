@@ -1,7 +1,5 @@
 package com.example.seollyongdan_frontend.app.di
 
-import com.example.seollyongdan_frontend.BuildConfig
-import com.example.seollyongdan_frontend.app.RegionInterceptor
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
@@ -14,17 +12,19 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
+import com.example.seollyongdan_frontend.app.RegionInterceptor
+import com.example.seollyongdan_frontend.BuildConfig
 
 @Module
 @InstallIn(SingletonComponent::class)
 object RetrofitModule {
 
-    private const val REGION_BASE_URL = "api.odcloud.kr/api"
+    private const val REGION_BASE_URL = "https://api.odcloud.kr/api"
 
     @Provides
     @Singleton
     fun provideApiKey(): String {
-        return BuildConfig.REGION_API_KEY // Gradle에서 불러온 API 키
+        return BuildConfig.REGION_API_KEY
     }
 
     @Provides
@@ -35,34 +35,6 @@ object RetrofitModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(regionInterceptor: RegionInterceptor): OkHttpClient {
-        return OkHttpClient.Builder()
-            .addInterceptor(regionInterceptor) // 모든 요청에 API 키 자동 추가
-            .build()
-    }
-
-    @Provides
-    @Singleton
-    fun provideRetrofit(client: OkHttpClient): Retrofit {
-        val json = Json { ignoreUnknownKeys = true }
-        return Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .client(client)
-            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
-            .build()
-    }
-}
-
-
-
-
-
-
-
-
-
-
-    @Provides
     fun provideLoggingInterceptor(): HttpLoggingInterceptor {
         return HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
@@ -72,20 +44,38 @@ object RetrofitModule {
     @Provides
     @Singleton
     fun provideOkHttpClient(
-        loggingInterceptor: HttpLoggingInterceptor,
-    ): OkHttpClient = OkHttpClient.Builder()
-        .addInterceptor(loggingInterceptor)
-        .connectTimeout(30, TimeUnit.SECONDS)
-        .readTimeout(30, TimeUnit.SECONDS)
-        .build()
+        regionInterceptor: RegionInterceptor,
+        loggingInterceptor: HttpLoggingInterceptor
+    ): OkHttpClient {
+        return OkHttpClient.Builder()
+            .addInterceptor(regionInterceptor) // API 키 추가
+            .addInterceptor(loggingInterceptor) // 로그 추가
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(30, TimeUnit.SECONDS)
+            .build()
+    }
 
-
-    @Singleton
+    @RegionRetrofit
     @Provides
+    @Singleton
+    fun provideRegionRetrofit(okHttpClient: OkHttpClient): Retrofit {
+        val json = Json { ignoreUnknownKeys = true }
+        return Retrofit.Builder()
+            .baseUrl(REGION_BASE_URL)
+            .client(okHttpClient)
+            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
+            .build()
+    }
+
     @SeollyongdanRetrofit
-    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
-        .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
-        .client(okHttpClient)
-        .baseUrl("")
-        .build()
+    @Provides
+    @Singleton
+    fun provideSeollyongdanRetrofit(okHttpClient: OkHttpClient): Retrofit {
+        val json = Json { ignoreUnknownKeys = true }
+        return Retrofit.Builder()
+            .baseUrl("https://your-seollyongdan-api.com") // 실제 API URL로 변경 필요
+            .client(okHttpClient)
+            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
+            .build()
+    }
 }

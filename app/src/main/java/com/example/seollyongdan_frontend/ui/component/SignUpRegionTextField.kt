@@ -91,7 +91,7 @@ fun SignUpRegionTextField(
                     selectedRegion(address)  // 선택된 지역을 외부로 전달
                     onBottomSheetVisibilityChange(false)  // 바텀시트 닫기
                 },
-                districts = regions  // regions를 바텀시트로 전달
+                regions = regions  // regions를 바텀시트로 전달
             )
         }
     }

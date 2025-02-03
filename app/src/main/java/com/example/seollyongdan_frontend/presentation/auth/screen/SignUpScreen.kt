@@ -77,7 +77,6 @@ fun SignUpScreen(
     var nickname by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var checkPassword by remember { mutableStateOf("") }
-    var region by remember { mutableStateOf("") }
 
     var selectedRegion by remember { mutableStateOf("") }
     var isBottomSheetVisible by remember { mutableStateOf(false) }
@@ -179,8 +178,8 @@ fun SignUpScreen(
         )
 
         SignUpRegionTextField(
-            value = region,
-            onValueChange = { region = it },
+            value = selectedRegion,
+            onValueChange = { selectedRegion = it },
             title = "내 동네 설정하기",
             placeholderText = "동명으로 검색 (ex. 청파동)",
             showWarning = true,

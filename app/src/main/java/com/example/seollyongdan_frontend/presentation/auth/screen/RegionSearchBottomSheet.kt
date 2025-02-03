@@ -23,13 +23,15 @@ import androidx.compose.ui.unit.dp
 fun RegionSearchBottomSheet(
     onDismiss: () -> Unit,
     onItemSelected: (String) -> Unit,
-    districts: List<String>
+    regions: List<String>
 ) {
     var searchQuery by remember { mutableStateOf("") }
 
-    val filteredDistricts = remember(searchQuery, districts) {
-        districts.filter { it.contains(searchQuery, ignoreCase = true) }
-    }
+    val filteredRegions = regions.filter {it.contains(searchQuery, ignoreCase = true)}
+
+    //val filteredRegions = remember(searchQuery, regions) {
+    //    regions.filter { it.contains(searchQuery, ignoreCase = true) }
+    //}
 
     ModalBottomSheet(onDismissRequest = onDismiss) {
         Column(modifier = Modifier.padding(16.dp)) {
@@ -41,13 +43,13 @@ fun RegionSearchBottomSheet(
             )
 
             LazyColumn {
-                items(filteredDistricts) { district ->
+                items(filteredRegions) { region ->
                     Text(
-                        text = district,
+                        text = region,
                         modifier = Modifier
                             .fillMaxWidth()
                             .clickable {
-                                onItemSelected(district)  // 지역 선택 시 호출
+                                onItemSelected(region)  // 지역 선택 시 호출
                                 onDismiss()  // 바텀시트 닫기
                             }
                             .padding(16.dp)

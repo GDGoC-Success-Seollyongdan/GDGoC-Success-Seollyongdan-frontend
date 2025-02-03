@@ -2,6 +2,7 @@ package com.example.seollyongdan_frontend.app.di
 
 import com.example.seollyongdan_frontend.data.service.ExampleApiService
 import com.example.seollyongdan_frontend.data.service.RegionApiService
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -11,11 +12,16 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object ServiceModule {
+class ServiceModule {
 
     @Provides
     @Singleton
-    fun provideRegionApiService(retrofit: Retrofit): RegionApiService {
-        return retrofit.create(RegionApiService::class.java)
-    }
+    fun bindRegionApiService(
+        @SeollyongdanRetrofit retrofit: Retrofit) : RegionApiService = retrofit.create(RegionApiService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideExampleService(
+        @SeollyongdanRetrofit retrofit: Retrofit
+    ): ExampleApiService = retrofit.create(ExampleApiService::class.java)
 }
