@@ -1,5 +1,6 @@
 package com.example.seollyongdan_frontend.presentation.auth.screen
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -11,13 +12,13 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -43,8 +44,8 @@ fun SignUpRoute(
     navigator: AuthNavigator
 ) {
     val systemUiController = rememberSystemUiController()
-    val signUpDuplicationViewModel : SignUpDuplicationViewModel = hiltViewModel()
-    val regionViewModel : RegionViewModel = hiltViewModel()
+    val signUpDuplicationViewModel: SignUpDuplicationViewModel = hiltViewModel()
+    val regionViewModel: RegionViewModel = hiltViewModel()
 
     SideEffect {
         systemUiController.setStatusBarColor(
@@ -83,10 +84,13 @@ fun SignUpScreen(
     val regions by regionViewModel.regions.collectAsState()
 
     val formattedDistricts = remember(regions) {
-        regions.map { "${it.city} ${it.district} ${it.town}" }
+        regions.mapNotNull { region ->
+            listOf(region.city, region.district, region.town)
+                .filterNotNull()
+                .takeIf { it.isNotEmpty() }
+                ?.joinToString(" ")
+        }
     }
-
-
     val context = LocalContext.current
 
     // 각 필드의 유효성 검사 상태
@@ -96,6 +100,11 @@ fun SignUpScreen(
     val isPasswordMatch = remember(password, checkPassword) {
         password == checkPassword && password.isNotEmpty()
     }
+
+    LaunchedEffect(Unit) {
+        regionViewModel.fetchRegions(page = 1, perPage = 50)
+    }
+
 
     // 모든 조건이 충족되었는지 확인
     val isFormValid = remember(
@@ -115,20 +124,16 @@ fun SignUpScreen(
     }
 
 
-
-
-
-
-    Column (
+    Column(
         modifier = Modifier
             .fillMaxSize()
             .background(White)
             .padding(top = 25.dp)
             .padding(horizontal = 16.dp)
-    ){
+    ) {
         IconButton(onClick = onBackClick, modifier = Modifier.width(11.dp)) {
             Icon(
-               imageVector = ImageVector.vectorResource(id = R.drawable.ic_back),
+                imageVector = ImageVector.vectorResource(id = R.drawable.ic_back),
                 contentDescription = "이전으로 돌아가기"
             )
         }
@@ -142,11 +147,11 @@ fun SignUpScreen(
         SignUpIdNicknameTextField(
             type = "id",
             value = id,
-            onValueChange = {id = it},
+            onValueChange = { id = it },
             title = "아이디 입력",
             noDuplicationText = "사용 가능한 아이디입니다.",
             duplicationText = "이미 사용 중인 아이디입니다.",
-            onCheckDuplication = {input -> signUpDuplicationViewModel.checkIdDuplication(input) },
+            onCheckDuplication = { input -> signUpDuplicationViewModel.checkIdDuplication(input) },
             duplicationState = signUpDuplicationViewModel.idDuplicationState.value,
             warningMessage = "영문 소문자와 숫자만 사용하여, 4~12자의 아이디를 입력해주세요."
         )
@@ -167,15 +172,21 @@ fun SignUpScreen(
         SignUpIdNicknameTextField(
             type = "nickname",
             value = nickname,
-            onValueChange = {nickname = it},
+            onValueChange = { nickname = it },
             title = "닉네임 입력",
             noDuplicationText = "사용 가능한 닉네임입니다.",
             duplicationText = "이미 사용 중인 닉네임입니다.",
-            onCheckDuplication = {input -> signUpDuplicationViewModel.checkNicknameDuplication(input) },
+            onCheckDuplication = { input ->
+                signUpDuplicationViewModel.checkNicknameDuplication(
+                    input
+                )
+            },
             duplicationState = signUpDuplicationViewModel.nicknameDuplicationState.value,
             warningMessage = "2글자 이상 작성해주세요."
 
         )
+
+        Spacer(modifier = Modifier.height(32.dp))
 
         SignUpRegionTextField(
             value = selectedRegion,
@@ -183,11 +194,23 @@ fun SignUpScreen(
             title = "내 동네 설정하기",
             placeholderText = "동명으로 검색 (ex. 청파동)",
             showWarning = true,
-            selectedRegion = { address -> selectedRegion = address },  // 지역 선택 시 selectedRegion 업데이트
-            regions = formattedDistricts,  // "시 구 동" 형식으로 지역 목록 전달
-            isBottomSheetVisible = isBottomSheetVisible,  // 바텀시트 상태 전달
-            onBottomSheetVisibilityChange = { isBottomSheetVisible = it }  // 바텀시트 상태 업데이트 함수 전달
+            onOpenBottomSheet = {
+                isBottomSheetVisible = true
+                Log.d("SignUpScreen", "바텀 시트 상태 변경: $isBottomSheetVisible")
+            }
         )
+
+        if (isBottomSheetVisible) {
+            Log.d("SignUpScreen", "바텀 시트 보이도록 설정됨")
+            RegionSearchBottomSheet(
+                onDismiss = { isBottomSheetVisible = false },  // 바텀 시트 닫기
+                onItemSelected = { address ->
+                    selectedRegion = address
+                    isBottomSheetVisible = false  // 바텀 시트 닫기
+                },
+                regions = formattedDistricts  // 지역 목록 전달
+            )
+        }
 
 
 
@@ -200,13 +223,12 @@ fun SignUpScreen(
                 if (isFormValid) {
                     onNextClick()
                 } else {
-                   context.toast("중복 검사 또는 조건을 충족하는지 확인해주세요.")
+                    context.toast("중복 검사 또는 조건을 충족하는지 확인해주세요.")
                 }
             },
             enabled = isFormValid
         )
         Spacer(modifier = Modifier.height(19.dp))
-
 
 
     }
@@ -218,8 +240,8 @@ fun SignUpScreen(
 @Composable
 fun SignUpScreenPreview() {
     SeollyongdanfrontendTheme {
-        val signUpDuplicationViewModel : SignUpDuplicationViewModel = hiltViewModel()
-        val regionViewModel : RegionViewModel = hiltViewModel()
+        val signUpDuplicationViewModel: SignUpDuplicationViewModel = hiltViewModel()
+        val regionViewModel: RegionViewModel = hiltViewModel()
 
         SignUpScreen(
             onNextClick = {

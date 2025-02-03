@@ -51,7 +51,8 @@ fun SignUpPasswordTextField(
 
         OutlinedTextField(
             modifier = modifier
-                .height(50.dp),
+                .height(50.dp)
+                .fillMaxWidth(),
             value = firstValue,
             onValueChange = onFirstValueChange,
             placeholder = {
@@ -77,7 +78,8 @@ fun SignUpPasswordTextField(
 
         OutlinedTextField(
             modifier = modifier
-                .height(50.dp),
+                .height(50.dp)
+                .fillMaxWidth(),
             value = secondValue,
             onValueChange = onSecondValueChange,
             placeholder = {

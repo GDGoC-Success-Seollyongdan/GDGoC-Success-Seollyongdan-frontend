@@ -10,7 +10,7 @@ data class RegionResponseDto(
 
 @Serializable
 data class RegionDto(
-    @SerialName("시도명") val city: String,
-    @SerialName("시군구명") val district: String,
-    @SerialName("읍면동명") val town: String
+    @SerialName("시도명") val city: String? = null,
+    @SerialName("시군구명") val district: String? = null,
+    @SerialName("읍면동명") val town: String?= null
 )

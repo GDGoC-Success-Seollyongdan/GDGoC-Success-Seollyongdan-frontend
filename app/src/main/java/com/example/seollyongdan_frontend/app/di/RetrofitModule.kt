@@ -19,7 +19,7 @@ import com.example.seollyongdan_frontend.BuildConfig
 @InstallIn(SingletonComponent::class)
 object RetrofitModule {
 
-    private const val REGION_BASE_URL = "https://api.odcloud.kr/api"
+    private const val REGION_BASE_URL = "https://api.odcloud.kr/api/"
 
     @Provides
     @Singleton

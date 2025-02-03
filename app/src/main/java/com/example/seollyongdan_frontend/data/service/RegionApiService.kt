@@ -8,6 +8,7 @@ import retrofit2.http.Query
 interface RegionApiService {
     @GET("$REGION")
     suspend fun getRegions(
+        @Query("serviceKey") serviceKey: String,
         @Query("page") page: Int,
         @Query("perPage") perPage: Int,
         @Query("returnType") returnType: String = "JSON"

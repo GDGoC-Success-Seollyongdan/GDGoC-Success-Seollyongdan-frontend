@@ -31,10 +31,7 @@ fun SignUpRegionTextField(
     title: String,
     placeholderText: String,
     showWarning: Boolean,
-    selectedRegion: (String) -> Unit,  // 외부에서 selectedRegion을 처리
-    regions: List<String>,
-    isBottomSheetVisible: Boolean,  // 바텀시트 상태 관리
-    onBottomSheetVisibilityChange: (Boolean) -> Unit,  // 바텀시트 상태 변경 함수
+    onOpenBottomSheet: () -> Unit,
     textAlign: TextAlign = TextAlign.Start
 ) {
     val warningMessage = "동네를 설정해주세요"
@@ -48,7 +45,7 @@ fun SignUpRegionTextField(
             modifier = modifier
                 .height(50.dp)
                 .clickable {
-                    onBottomSheetVisibilityChange(true)  // 바텀시트 열기
+                    onOpenBottomSheet()  // 바텀시트 열기
                 },
             value = value,
             onValueChange = onValueChange,
@@ -83,17 +80,6 @@ fun SignUpRegionTextField(
             )
         }
 
-        // 바텀시트가 표시될 때
-        if (isBottomSheetVisible) {
-            RegionSearchBottomSheet(
-                onDismiss = { onBottomSheetVisibilityChange(false) },  // 바텀시트 닫기
-                onItemSelected = { address ->
-                    selectedRegion(address)  // 선택된 지역을 외부로 전달
-                    onBottomSheetVisibilityChange(false)  // 바텀시트 닫기
-                },
-                regions = regions  // regions를 바텀시트로 전달
-            )
-        }
     }
 }
 @Preview(showBackground = true)
@@ -105,9 +91,6 @@ fun SignUpRegionTextFieldPreview() {
         title = "내 동네 설정하기",
         placeholderText = "동명으로 검색 (ex. 청파동)",
         showWarning = true,
-        selectedRegion = { },  // 지역 선택 시 selectedRegion 업데이트
-        regions = listOf("청파동"),  // "시 구 동" 형식으로 지역 목록 전달
-        isBottomSheetVisible = true,  // 바텀시트 상태 전달
-        onBottomSheetVisibilityChange = {  }  // 바텀시트 상태 업데이트 함수 전달
+        onOpenBottomSheet = {}
     )
 }
