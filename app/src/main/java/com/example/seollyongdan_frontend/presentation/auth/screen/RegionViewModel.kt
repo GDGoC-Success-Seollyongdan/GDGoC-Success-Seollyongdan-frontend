@@ -20,7 +20,8 @@ class RegionViewModel @Inject constructor(
 
     fun fetchRegions(page: Int, perPage: Int) {
         viewModelScope.launch {
-            _regions.value = repository.getRegions(page, perPage)
+            val allRegions = repository.getRegions(page, perPage)
+            _regions.value = allRegions.filter { it.deletedAt == null } // 삭제되지 않은 데이터만 저장
         }
     }
 }
