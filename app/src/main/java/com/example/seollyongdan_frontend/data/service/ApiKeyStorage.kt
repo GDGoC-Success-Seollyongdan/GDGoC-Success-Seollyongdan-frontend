@@ -24,4 +24,7 @@ object ApiKeyStorage {
     const val REVIEWS = "reviews"
     const val RECOMMEND = "recommend"
     const val SIMILAR = "similar"
+
+    const val REGION = "15063424/v1/uddi:257e1510-0eeb-44de-8883-8295c94dadf7"
 }
+

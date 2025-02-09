@@ -28,6 +28,7 @@ android {
             useSupportLibrary = true
         }
 
+        buildConfigField("String", "REGION_API_KEY", properties["REGION_API_KEY"].toString())
         buildConfigField("String", "BASE_URL", properties["base.url"].toString())
     }
 
