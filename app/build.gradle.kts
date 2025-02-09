@@ -30,6 +30,7 @@ android {
 
         buildConfigField("String", "REGION_API_KEY", properties["REGION_API_KEY"].toString())
         buildConfigField("String", "BASE_URL", properties["base.url"].toString())
+        resValue("string", "naver_map_sdk_client_id", "\"${properties["NAVER_CLIENT_ID"]}\"")
     }
 
     buildTypes {
@@ -147,8 +148,9 @@ dependencies {
 
     //coil
     implementation("io.coil-kt:coil-compose:2.7.0")
-
     implementation("androidx.compose.runtime:runtime-livedata:1.7.5")
 
-
+    //naver map API
+    implementation("com.naver.maps:map-sdk:3.20.0")
+    implementation("io.github.fornewid:naver-map-compose:1.4.1")
 }
