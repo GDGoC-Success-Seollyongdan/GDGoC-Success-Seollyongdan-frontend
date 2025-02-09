@@ -19,17 +19,12 @@ import com.example.seollyongdan_frontend.presentation.guide.navigation.GuideNavi
 import com.example.seollyongdan_frontend.presentation.guide.navigation.guideNavGraph
 import com.example.seollyongdan_frontend.presentation.home.navigation.HomeNavigator
 import com.example.seollyongdan_frontend.presentation.home.navigation.homeNavGraph
-import com.example.seollyongdan_frontend.presentation.life.navigation.LifeNavigator
 import com.example.seollyongdan_frontend.presentation.main.navigation.MainNavigator
 import com.example.seollyongdan_frontend.presentation.main.navigation.mainNavGraph
 import com.example.seollyongdan_frontend.presentation.mypage.navigation.MypageNavigator
 import com.example.seollyongdan_frontend.presentation.mypage.navigation.mypageNavGraph
-import com.example.seollyongdan_frontend.presentation.realestate.navigation.RealEstateNavigator
-import com.example.seollyongdan_frontend.presentation.review.navigation.ReviewNavigator
-import com.example.seollyongdan_frontend.presentation.safety.navigation.SafetyNavigator
 import com.example.seollyongdan_frontend.presentation.search.navigation.SearchNavigator
 import com.example.seollyongdan_frontend.presentation.search.navigation.searchNavGraph
-import com.example.seollyongdan_frontend.presentation.traffic.navigation.TrafficNavigator
 
 
 @Composable
