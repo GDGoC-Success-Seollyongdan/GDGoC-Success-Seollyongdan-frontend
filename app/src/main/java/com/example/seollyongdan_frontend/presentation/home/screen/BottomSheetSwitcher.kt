@@ -7,11 +7,12 @@ import androidx.compose.runtime.Composable
 fun BottomSheetSwitcher(
     screen: BottomSheetScreen,
     homeViewModel: HomeViewModel,
-    onSearchClick : () -> Unit
+    onSearchClick : () -> Unit,
+    districtName : String
 ){
     when (screen){
         BottomSheetScreen.HOME -> BottomSheetMainScreen(homeViewModel, onSearchClick)
-        BottomSheetScreen.SAFETY -> BottomSheetSafetyScreen(homeViewModel)
+        BottomSheetScreen.SAFETY -> BottomSheetSafetyScreen(homeViewModel, districtName)
         BottomSheetScreen.REAL_ESTATE -> BottomSheetRealEstateScreen(homeViewModel)
         BottomSheetScreen.TRAFFIC -> BottomSheetTrafficScreen(homeViewModel)
         BottomSheetScreen.LIFE -> BottomSheetLifeScreen(homeViewModel)

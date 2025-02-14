@@ -78,3 +78,11 @@ val Primary700 = Color(0xFFABAB75)
 val Primary800 = Color(0xFF8A8A4A)
 val Primary900 = Color(0xFF72722C)
 
+//graph
+val GraphOrange = Color(0xFFFFBF33)
+val GraphGreen = Color(0xFF4CAF50)
+val GraphBlue = Color(0xFF2196F3)
+val GraphPurple = Color(0xFF9C27B0)
+val GraphBrown = Color(0xFF795548)
+val GraphPink = Color(0xFFDF8175)
+

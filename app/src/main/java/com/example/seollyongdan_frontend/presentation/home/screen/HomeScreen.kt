@@ -85,7 +85,9 @@ fun HomeScreen(
     }
     var districtName by remember { mutableStateOf("성북구")}
 
-    LaunchedEffect(Unit) {
+    // districtName이 변경될 때 바텀시트 새로 호출
+    LaunchedEffect(districtName) {
+        showBottomSheet = true
         sheetState.show()
     }
 
@@ -165,7 +167,7 @@ fun HomeScreen(
                     modifier = Modifier
                         .navigationBarsPadding()
                 ) {
-                    BottomSheetSwitcher(bottomSheetScreen, homeViewModel, onSearchClick)
+                    BottomSheetSwitcher(bottomSheetScreen, homeViewModel, onSearchClick, districtName)
                 }
             }
         }
@@ -178,6 +180,7 @@ fun HomeScreen(
                     }
                 }, onSelectDistrict = { selectedDistrict ->
                     districtName = selectedDistrict
+                    showBottomSheet = true // 동네가 바뀔 때 바텀시트 새로 호출
                     showBottomSheetSearch = false
                 }
             )
