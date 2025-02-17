@@ -28,20 +28,22 @@ import com.example.seollyongdan_frontend.ui.theme.b4Regular
 import com.example.seollyongdan_frontend.ui.theme.b4Semi
 
 @Composable
-fun SafetyTable(
+fun LifeTable(
     data: List<String>
 ) {
+    //FIXME 백에서 받아 오기
     val tableData = listOf(
-        listOf("시설명", "개수"), // 헤더
-        listOf("CCTV", data[0]),
-        listOf("경찰서", data[1]),
-        listOf("소방서", data[2])
+        listOf("카테고리", "비율(%)"), // 헤더
+        listOf("식료품", data[0]),
+        listOf("음식점", data[1]),
+        listOf("의류 및 악세서리", data[2]),
+        listOf("학원", data[3])
     )
 
     Column(
         modifier = Modifier
             .width(310.dp)
-            .height(144.dp)
+            .height(180.dp)
             .clip(RoundedCornerShape(8.dp))
             .background(Color.White)
             .border(1.dp, Gray200, RoundedCornerShape(5.dp))
@@ -56,7 +58,7 @@ fun SafetyTable(
                 row.forEachIndexed { cellIndex, cell ->
                     Text(
                         text = cell,
-                        style = (if (rowIndex == 0) b4Semi else b4Regular),
+                        style = (if (rowIndex==0) b4Semi else b4Regular),
                         modifier = Modifier
                             .width(155.dp)
                             .height(36.dp)
@@ -84,7 +86,7 @@ fun SafetyTable(
 
 @Preview
 @Composable
-fun SafetyTablePreview() {
-    val data = listOf("100", "200", "300")
-    SafetyTable(data)
+fun LifeTablePreview(){
+    val data = listOf("50","30","15", "4")
+    LifeTable(data)
 }
