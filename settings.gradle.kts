@@ -11,14 +11,16 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
     repositories {
         google()
         mavenCentral()
-	maven("https://repository.map.naver.com/archive/maven")
+        maven("https://repository.map.naver.com/archive/maven")
     }
 }
+
 
 rootProject.name = "Sellyongdan-frontend"
 include(":app")

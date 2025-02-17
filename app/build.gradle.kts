@@ -153,4 +153,5 @@ dependencies {
     //naver map API
     implementation("com.naver.maps:map-sdk:3.20.0")
     implementation("io.github.fornewid:naver-map-compose:1.4.1")
+
 }
