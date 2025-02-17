@@ -28,6 +28,7 @@ import com.example.seollyongdan_frontend.ui.theme.GraphOrange
 import com.example.seollyongdan_frontend.ui.theme.GraphPink
 import com.example.seollyongdan_frontend.ui.theme.GraphPurple
 import com.example.seollyongdan_frontend.ui.theme.Gray700
+import com.example.seollyongdan_frontend.ui.theme.b3Semi
 import com.example.seollyongdan_frontend.ui.theme.b4Regular
 
 @Composable
@@ -46,10 +47,11 @@ fun PieGraph(
 ) {
     Column(
         modifier = modifier
-            .fillMaxWidth()
-            .padding(16.dp),
+            .fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        Text("상위 5위", color = Gray700, style = b3Semi)
+
         Canvas(
             modifier = Modifier
                 .size(200.dp)

@@ -86,3 +86,8 @@ val GraphPurple = Color(0xFF9C27B0)
 val GraphBrown = Color(0xFF795548)
 val GraphPink = Color(0xFFDF8175)
 
+//visualization
+val VisualizationRed = Color(0xFFFF0000)
+val VisualizationGreen = Color(0xFF00FF00)
+val VisualizationYellow = Color(0xFFFFEB3B)
+
