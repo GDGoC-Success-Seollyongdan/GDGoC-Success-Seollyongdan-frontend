@@ -65,7 +65,9 @@ fun HomeRoute(
 
     HomeScreen(
         homeViewModel = homeViewModel,
-        onSearchClick = {navigator.navigateToSearch()}
+        onSearchClick = {navigator.navigateToSearch()},
+        onTrafficVisualizationClick = {navigator.navigateToTrafficVisualization()},
+        onSafetyVisualizationClick = {navigator.navigateToSafetyVisualization()}
     )
 }
 
@@ -73,7 +75,9 @@ fun HomeRoute(
 @Composable
 fun HomeScreen(
     homeViewModel: HomeViewModel,
-    onSearchClick : () -> Unit
+    onSearchClick : () -> Unit,
+    onTrafficVisualizationClick : () -> Unit,
+    onSafetyVisualizationClick : () -> Unit
 ){
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = false)
     val coroutineScope = rememberCoroutineScope()
@@ -167,7 +171,7 @@ fun HomeScreen(
                     modifier = Modifier
                         .navigationBarsPadding()
                 ) {
-                    BottomSheetSwitcher(bottomSheetScreen, homeViewModel, onSearchClick, districtName)
+                    BottomSheetSwitcher(bottomSheetScreen, homeViewModel, onSearchClick,onTrafficVisualizationClick, onSafetyVisualizationClick, districtName)
                 }
             }
         }

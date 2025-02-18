@@ -11,4 +11,16 @@ class HomeNavigator(
     fun navigateToSearch() {
         navController.navigate("search")
     }
+
+    fun navigateToHome() {
+        navController.navigate("home")
+    }
+
+    fun navigateToTrafficVisualization() {
+        navController.navigate("trafficVisualization")
+    }
+
+    fun navigateToSafetyVisualization() {
+        navController.navigate("safetyVisualization")
+    }
 }
