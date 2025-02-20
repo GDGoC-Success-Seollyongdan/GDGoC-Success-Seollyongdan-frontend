@@ -1,6 +1,5 @@
 package com.example.seollyongdan_frontend.presentation.community.screen
 
-import android.graphics.drawable.Icon
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -13,8 +12,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.Switch
-import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -29,13 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.seollyongdan_frontend.R
-import com.example.seollyongdan_frontend.ui.theme.Gray200
-import com.example.seollyongdan_frontend.ui.theme.ToggleGreen
-import com.example.seollyongdan_frontend.ui.theme.White
-import com.example.seollyongdan_frontend.ui.theme.h1Semi
 import com.example.seollyongdan_frontend.ui.theme.h5Semi
-import com.example.seollyongdan_frontend.ui.theme.h6Semi
-import com.example.seollyongdan_frontend.ui.theme.h7Semi
 
 
 @Composable

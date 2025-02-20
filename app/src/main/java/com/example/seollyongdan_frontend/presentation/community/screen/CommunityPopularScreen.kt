@@ -26,7 +26,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.seollyongdan_frontend.R
-import com.example.seollyongdan_frontend.presentation.community.navigation.CommunityNavigator
 import com.example.seollyongdan_frontend.ui.theme.h5Semi
 
 

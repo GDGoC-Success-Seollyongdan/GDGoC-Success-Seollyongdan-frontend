@@ -51,7 +51,7 @@ class CommunityDetailViewModel @Inject constructor() : ViewModel() {
         val newComment = CommentEntity(
             id = (_communityDetailList.value.comments.maxOfOrNull { it.id } ?: 0) + 1,
             userName = "새로운 유저",
-            userDistrict = "알 수 없음",
+            userDistrict = "성북구",
             isResident = false,
             content = content,
             postTime = 0

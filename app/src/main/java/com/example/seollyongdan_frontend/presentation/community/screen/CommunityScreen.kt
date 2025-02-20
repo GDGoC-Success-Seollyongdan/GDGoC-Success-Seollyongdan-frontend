@@ -51,7 +51,6 @@ import com.example.seollyongdan_frontend.ui.theme.Gray50
 import com.example.seollyongdan_frontend.ui.theme.Gray900
 import com.example.seollyongdan_frontend.ui.theme.Info400
 import com.example.seollyongdan_frontend.ui.theme.White
-import com.example.seollyongdan_frontend.ui.theme.h2Bold
 import com.example.seollyongdan_frontend.ui.theme.h3Semi
 import com.example.seollyongdan_frontend.ui.theme.h5Semi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController

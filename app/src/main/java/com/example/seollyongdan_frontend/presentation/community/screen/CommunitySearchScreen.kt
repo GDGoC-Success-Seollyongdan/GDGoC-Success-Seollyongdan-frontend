@@ -56,7 +56,8 @@ fun CommunitySearchRoute(
     CommunitySearchScreen(
         onBackClick = { navigator.navigateBack() },
         onDetailClick = { id, district ->
-            navigator.navigateToCommunityDetail(id = id, district = district)},
+            navigator.navigateToCommunityDetail(id = id, district = district)
+        },
         district = district,
         searchViewModel = searchViewModel
     )
@@ -66,7 +67,7 @@ fun CommunitySearchRoute(
 @Composable
 fun CommunitySearchScreen(
     onBackClick: () -> Unit,
-    onDetailClick : (Long, String) -> Unit,
+    onDetailClick: (Long, String) -> Unit,
     district: String,
     searchViewModel: CommunitySearchViewModel
 ) {
@@ -103,7 +104,9 @@ fun CommunitySearchScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(paddingValues),
+                .padding(paddingValues)
+                .padding(horizontal = 10.dp),
+
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             SearchTextField(
@@ -111,33 +114,41 @@ fun CommunitySearchScreen(
                 onValueChange = { content = it },
                 onSearchClick = {
                     isSearch = true
-                    searchViewModel.communitySearch(content) },
+                    searchViewModel.communitySearch(content)
+                },
             )
 
             Spacer(modifier = Modifier.height(10.dp))
 
             val searchResult by searchViewModel.searchResult
 
-            if (searchResult.isEmpty() && isSearch ){
+            if (searchResult.isEmpty() && isSearch) {
                 Spacer(modifier = Modifier.height(70.dp))
-                Text("검색 결과가 없어요", style = h4Regular,
-                    modifier = Modifier.align(Alignment.CenterHorizontally))
+                Text(
+                    "검색 결과가 없어요", style = h4Regular,
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                )
             } else if (isSearch) {
-                LazyColumn (
+                LazyColumn(
                     verticalArrangement = Arrangement.spacedBy(15.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
-                ){
-                    item{
-                        Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically){
+                ) {
+                    item {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
                             Text("거주자만 표시", style = h5Semi)
 
                             Spacer(modifier = Modifier.width(8.dp))
 
                             IconButton(
-                                onClick = {isToggleChecked = !isToggleChecked},
+                                onClick = { isToggleChecked = !isToggleChecked },
                             ) {
                                 Icon(
-                                    modifier = Modifier.width(42.dp).height(25.dp),
+                                    modifier = Modifier
+                                        .width(42.dp)
+                                        .height(25.dp),
                                     painter = painterResource(id = if (isToggleChecked) R.drawable.ic_toggle_on else R.drawable.ic_toggle_off),
                                     contentDescription = "토글",
                                     tint = Color.Unspecified
@@ -151,16 +162,20 @@ fun CommunitySearchScreen(
 
                     }
                     items(searchResult.filter { !isToggleChecked || it.isResident } // 토글이 켜져 있으면 거주자만 필터링
-                    ){ item ->
-                        CommunityPostItem(data = item, onClick = {onDetailClick(item.id, district)}, selectedRegion = district)
+                    ) { item ->
+                        CommunityPostItem(
+                            data = item,
+                            onClick = { onDetailClick(item.id, district) },
+                            selectedRegion = district
+                        )
                     }
                 }
 
             }
 
 
-    }
+        }
 
-}
+    }
 
 }

@@ -102,7 +102,7 @@ fun PostDetailItemPreview() {
             like = 10,
             view = 150,
             comment = 3,
-            )
+        )
     CommunityPostDetailItem(
         data, "용산구 청파로1가"
     )

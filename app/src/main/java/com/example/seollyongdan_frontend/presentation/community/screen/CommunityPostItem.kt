@@ -39,7 +39,7 @@ fun CommunityPostItem(
             .clip(RoundedCornerShape(10.dp))
             .background(White)
             .clickable {
-                onClick
+                onClick()
             }
     ) {
         Column(

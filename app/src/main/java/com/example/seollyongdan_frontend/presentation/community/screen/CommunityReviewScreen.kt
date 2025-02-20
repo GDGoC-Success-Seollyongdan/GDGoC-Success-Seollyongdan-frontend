@@ -26,8 +26,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.seollyongdan_frontend.R
 import com.example.seollyongdan_frontend.presentation.community.navigation.CommunityNavigator
 import com.example.seollyongdan_frontend.ui.component.ContentTextField

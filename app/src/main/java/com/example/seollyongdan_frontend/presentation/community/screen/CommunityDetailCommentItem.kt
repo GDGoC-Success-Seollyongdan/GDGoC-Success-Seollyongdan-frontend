@@ -15,14 +15,12 @@ import androidx.compose.ui.unit.dp
 import com.example.seollyongdan_frontend.ui.component.CommunityProfileBox
 import com.example.seollyongdan_frontend.ui.theme.Gray100
 import com.example.seollyongdan_frontend.ui.theme.b2Regular
-import com.example.seollyongdan_frontend.ui.theme.b3Regular
-import com.example.seollyongdan_frontend.ui.theme.b4Regular
 
 @Composable
 fun CommunityDetailCommentItem(
-    data : CommentEntity,
-    communityDistrict : String
-){
+    data: CommentEntity,
+    communityDistrict: String
+) {
     Column {
 
         Column(
@@ -61,7 +59,7 @@ fun CommunityDetailCommentItem(
 
 @Preview
 @Composable
-fun DetailCommentItemPreview(){
+fun DetailCommentItemPreview() {
     val data =
         CommentEntity(
             id = 1,
