@@ -1,0 +1,94 @@
+package com.example.seollyongdan_frontend.presentation.community.screen
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.seollyongdan_frontend.R
+import com.example.seollyongdan_frontend.presentation.community.navigation.CommunityNavigator
+import com.example.seollyongdan_frontend.ui.theme.h5Semi
+
+
+@Composable
+fun CommunityPopularScreen(
+    onDetailClick: (Long) -> Unit,
+    communityPostViewModel: CommunityPostViewModel,
+    selectedRegion : String
+) {
+    var isToggleChecked by remember { mutableStateOf(false) }
+
+    LazyColumn (
+        verticalArrangement = Arrangement.spacedBy(15.dp),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = 10.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+
+    ) {
+        item {
+            Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically){
+                Text("거주자만 표시", style = h5Semi)
+
+                Spacer(modifier = Modifier.width(8.dp))
+
+                IconButton(
+                    onClick = {isToggleChecked = !isToggleChecked},
+                ) {
+                    Icon(
+                        modifier = Modifier.width(42.dp).height(25.dp),
+                        painter = painterResource(id = if (isToggleChecked) R.drawable.ic_toggle_on else R.drawable.ic_toggle_off),
+                        contentDescription = "토글",
+                        tint = Color.Unspecified
+                    )
+                }
+
+            }
+
+        }
+
+
+        items(
+            communityPostViewModel.communityPostList
+                .filter { it.postDistrict == selectedRegion }
+                .filter {it.like >= 10}
+                .filter { !isToggleChecked || (it.isResident && it.userDistrict == selectedRegion) } // 토글이 켜져 있으면 거주자만 필터링
+        ) { item ->
+            CommunityPostItem(data = item, onClick = {onDetailClick(item.id)}, selectedRegion)
+        }
+
+
+
+    }
+
+}
+
+@Preview
+@Composable
+fun CommunityPopularScreenPreview(){
+    CommunityPopularScreen(
+        onDetailClick = {},
+        communityPostViewModel = viewModel(),
+        selectedRegion = "용산구 청파동1가"
+    )
+}
