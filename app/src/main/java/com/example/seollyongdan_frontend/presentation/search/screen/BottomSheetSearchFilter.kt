@@ -51,7 +51,6 @@ fun BottomSheetSearchFilter(
 
     ModalBottomSheet(
         onDismissRequest = { onDismiss() },
-        modifier = Modifier.background(color = White)
     ) {
         Column(
             modifier = Modifier
