@@ -105,12 +105,13 @@ fun SignUpScreen(
     val textAlign: TextAlign = TextAlign.Start
 
     val formattedDistricts = remember(regions) {
-        regions.mapNotNull { region ->
-            listOf(region.city, region.district, region.town)
-                .filterNotNull()
-                .takeIf { it.isNotEmpty() }
-                ?.joinToString(" ")
-        }.distinct()
+        regions.filter { it.city == "서울특별시" } // city가 "서울특별시"인 데이터만 필터링
+            .mapNotNull { region ->
+                listOf(region.district, region.town) // district와 town만 포함
+                    .filterNotNull()
+                    .takeIf { it.isNotEmpty() }
+                    ?.joinToString(" ")
+            }.distinct()
     }
 
     fun showBottomSheet() {

@@ -91,3 +91,6 @@ val VisualizationRed = Color(0xFFFF0000)
 val VisualizationGreen = Color(0xFF00FF00)
 val VisualizationYellow = Color(0xFFFFEB3B)
 
+//toggle
+val ToggleGreen = Color(0xFF34C759)
+
