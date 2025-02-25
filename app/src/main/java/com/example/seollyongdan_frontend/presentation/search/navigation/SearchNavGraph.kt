@@ -2,7 +2,10 @@ package com.example.seollyongdan_frontend.presentation.search.navigation
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import com.example.seollyongdan_frontend.presentation.search.screen.SearchResultRoute
+import com.example.seollyongdan_frontend.presentation.search.screen.SearchResultScreen
 import com.example.seollyongdan_frontend.presentation.search.screen.SearchRoute
+import com.example.seollyongdan_frontend.presentation.search.screen.SearchScreen
 
 
 fun NavGraphBuilder.searchNavGraph(
@@ -10,5 +13,8 @@ fun NavGraphBuilder.searchNavGraph(
 ){
     composable(route = "search"){
         SearchRoute(navigator = navigator)
+    }
+    composable(route = "search_result"){
+        SearchResultRoute(navigator = navigator)
     }
 }
