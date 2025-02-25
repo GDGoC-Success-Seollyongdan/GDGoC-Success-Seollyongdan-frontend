@@ -1,12 +1,15 @@
 package com.example.seollyongdan_frontend.data.service
 
 import com.example.seollyongdan_frontend.data.dto.SeollyongdanBaseResponse
+import com.example.seollyongdan_frontend.data.dto.request.RequestLoginDto
 import com.example.seollyongdan_frontend.data.dto.request.RequestSignUpDto
+import com.example.seollyongdan_frontend.data.dto.response.ResponseLoginDto
 import com.example.seollyongdan_frontend.data.service.ApiKeyStorage.API
 import com.example.seollyongdan_frontend.data.service.ApiKeyStorage.CHECKNICKNAME
 import com.example.seollyongdan_frontend.data.service.ApiKeyStorage.SIGNUP
 import com.example.seollyongdan_frontend.data.service.ApiKeyStorage.USERS
 import com.example.seollyongdan_frontend.data.service.ApiKeyStorage.CHECKUSERNAME
+import com.example.seollyongdan_frontend.data.service.ApiKeyStorage.LOGIN
 
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -29,5 +32,10 @@ interface AuthApiService{
     suspend fun getNicknameDuplication(
         @Query("nickname") nickname : String
     ) : SeollyongdanBaseResponse<String>
+
+    @POST ("/$API/$USERS/$LOGIN")
+    suspend fun getLogin(
+        @Body requestLoginDto: RequestLoginDto
+    ) : SeollyongdanBaseResponse<ResponseLoginDto>
 
 }

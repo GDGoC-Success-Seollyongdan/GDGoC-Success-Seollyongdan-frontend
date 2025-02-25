@@ -22,7 +22,7 @@ class ServiceModule {
 
     @Provides
     @Singleton
-    fun binSignUpApiService(
+    fun binAuthApiService(
         @SeollyongdanRetrofit retrofit: Retrofit
     ) : AuthApiService = retrofit.create(AuthApiService::class.java)
 

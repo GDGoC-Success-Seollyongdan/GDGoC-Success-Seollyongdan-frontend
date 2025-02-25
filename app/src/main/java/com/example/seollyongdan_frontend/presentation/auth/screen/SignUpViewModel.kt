@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.seollyongdan_frontend.data.dto.request.RequestSignUpDto
-import com.example.seollyongdan_frontend.domain.repository.SignUpRepository
+import com.example.seollyongdan_frontend.domain.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
-    private val repository: SignUpRepository
+    private val repository: AuthRepository
 ) : ViewModel() {
 
     private val _toastMessage = MutableSharedFlow<String>()

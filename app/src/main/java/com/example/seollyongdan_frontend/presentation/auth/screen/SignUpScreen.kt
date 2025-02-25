@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -65,7 +64,7 @@ fun SignUpRoute(
     val systemUiController = rememberSystemUiController()
     val signUpDuplicationViewModel: SignUpDuplicationViewModel = hiltViewModel()
     val regionViewModel: RegionViewModel = hiltViewModel()
-    val signUpViewModel : SignUpViewModel = hiltViewModel()
+    val signUpViewModel: SignUpViewModel = hiltViewModel()
 
     SideEffect {
         systemUiController.setStatusBarColor(
@@ -140,9 +139,17 @@ fun SignUpScreen(
         password == checkPassword && password.isNotEmpty()
     }
 
+    val signUpState = signUpViewModel.signUpState.value
+
+    LaunchedEffect(signUpState) {
+        if (signUpState == true) { // true일 때만 회원가입 성공
+            onNextClick() // 로그인 화면으로 이동
+        }
+    }
+
     LaunchedEffect(Unit) {
         regionViewModel.fetchRegions(page = 1, perPage = 1800)
-        signUpViewModel.toastMessage.collect{ message ->
+        signUpViewModel.toastMessage.collect { message ->
             Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
         }
     }
@@ -252,7 +259,7 @@ fun SignUpScreen(
                 contentAlignment = Alignment.CenterStart
             ) {
 
-                Row(){
+                Row() {
                     Spacer(modifier = Modifier.width(16.dp))
 
                     Text(
@@ -304,17 +311,18 @@ fun SignUpScreen(
         }
 
         Spacer(modifier = Modifier.weight(1f))
+        val signUpState = signUpViewModel.signUpState.value
 
         SignUpButton(
             value = "가입 완료",
             onClick = {
                 if (isFormValid) {
-                    signUpViewModel.postSignUp(id = id, password = password, nickName = nickname, district = selectedRegion)
-                    if (signUpViewModel.signUpState.value == true){
-                        onNextClick()
-                    }else{
-
-                    }
+                    signUpViewModel.postSignUp(
+                        id = id,
+                        password = password,
+                        nickName = nickname,
+                        district = selectedRegion
+                    )
                 } else {
                     context.toast("중복 검사 또는 조건을 충족하는지 확인해주세요.")
                 }
@@ -326,7 +334,6 @@ fun SignUpScreen(
 
     }
 }
-
 
 
 @Preview
