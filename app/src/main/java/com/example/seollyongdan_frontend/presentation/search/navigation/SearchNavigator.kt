@@ -8,4 +8,7 @@ class SearchNavigator(
     fun navigateBack(){
         navController.popBackStack()
     }
+    fun navigateToSearchResult(){
+        navController.navigate("search_result")
+    }
 }
