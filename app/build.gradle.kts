@@ -29,6 +29,7 @@ android {
         }
 
         buildConfigField("String", "REGION_API_KEY", properties["REGION_API_KEY"].toString())
+        buildConfigField("String", "SEOLLYONGDAN_BASE_URL", properties["SEOLLYONGDAN_BASE_URL"].toString())
         buildConfigField("String", "BASE_URL", properties["base.url"].toString())
         resValue("string", "naver_map_sdk_client_id", "\"${properties["NAVER_CLIENT_ID"]}\"")
     }

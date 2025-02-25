@@ -73,7 +73,7 @@ object RetrofitModule {
     fun provideSeollyongdanRetrofit(okHttpClient: OkHttpClient): Retrofit {
         val json = Json { ignoreUnknownKeys = true }
         return Retrofit.Builder()
-            .baseUrl("https://your-seollyongdan-api.com") // 실제 API URL로 변경 필요
+            .baseUrl(BuildConfig.SEOLLYONGDAN_BASE_URL) // 실제 API URL로 변경 필요
             .client(okHttpClient)
             .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
             .build()

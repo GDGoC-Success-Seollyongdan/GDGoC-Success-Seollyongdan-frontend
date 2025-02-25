@@ -1,6 +1,7 @@
 package com.example.seollyongdan_frontend.presentation.auth.screen
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -40,6 +41,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.sellyongdan_frontend.util.toast
 import com.example.seollyongdan_frontend.R
 import com.example.seollyongdan_frontend.presentation.auth.navigation.AuthNavigator
@@ -63,6 +65,7 @@ fun SignUpRoute(
     val systemUiController = rememberSystemUiController()
     val signUpDuplicationViewModel: SignUpDuplicationViewModel = hiltViewModel()
     val regionViewModel: RegionViewModel = hiltViewModel()
+    val signUpViewModel : SignUpViewModel = hiltViewModel()
 
     SideEffect {
         systemUiController.setStatusBarColor(
@@ -77,8 +80,8 @@ fun SignUpRoute(
         onBackClick = {
             navigator.navigateBack()
         },
-        signUpDuplicationViewModel = signUpDuplicationViewModel,
-        regionViewModel = regionViewModel
+        regionViewModel = regionViewModel,
+        signUpViewModel = signUpViewModel
     )
 }
 
@@ -88,8 +91,8 @@ fun SignUpRoute(
 fun SignUpScreen(
     onNextClick: () -> Unit = {},
     onBackClick: () -> Unit = {},
-    signUpDuplicationViewModel: SignUpDuplicationViewModel,
-    regionViewModel: RegionViewModel
+    regionViewModel: RegionViewModel,
+    signUpViewModel: SignUpViewModel
 ) {
     var id by remember { mutableStateOf("") }
     var nickname by remember { mutableStateOf("") }
@@ -101,6 +104,7 @@ fun SignUpScreen(
     var selectedRegion by remember { mutableStateOf("") }
     var isBottomSheetVisible by remember { mutableStateOf(false) }
     val regions by regionViewModel.regions.collectAsState()
+
 
     val textAlign: TextAlign = TextAlign.Start
 
@@ -138,6 +142,9 @@ fun SignUpScreen(
 
     LaunchedEffect(Unit) {
         regionViewModel.fetchRegions(page = 1, perPage = 1800)
+        signUpViewModel.toastMessage.collect{ message ->
+            Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+        }
     }
 
 
@@ -148,14 +155,14 @@ fun SignUpScreen(
         password,
         checkPassword,
         selectedRegion,
-        signUpDuplicationViewModel.idDuplicationState.value,
-        signUpDuplicationViewModel.nicknameDuplicationState.value,
+        signUpViewModel.idDuplicationState.value,
+        signUpViewModel.nicknameDuplicationState.value,
         isPasswordValid,
         isPasswordMatch
     ) {
         selectedRegion.isNotEmpty() &&
-                signUpDuplicationViewModel.idDuplicationState.value == false &&  // false는 중복되지 않음을 의미
-                signUpDuplicationViewModel.nicknameDuplicationState.value == false &&
+                signUpViewModel.idDuplicationState.value == false &&  // false는 중복되지 않음을 의미
+                signUpViewModel.nicknameDuplicationState.value == false &&
                 isPasswordValid &&
                 isPasswordMatch
     }
@@ -188,8 +195,8 @@ fun SignUpScreen(
             title = "아이디 입력",
             noDuplicationText = "사용 가능한 아이디입니다.",
             duplicationText = "이미 사용 중인 아이디입니다.",
-            onCheckDuplication = { input -> signUpDuplicationViewModel.checkIdDuplication(input) },
-            duplicationState = signUpDuplicationViewModel.idDuplicationState.value,
+            onCheckDuplication = { input -> signUpViewModel.getIdDuplication(input) },
+            duplicationState = signUpViewModel.idDuplicationState.value,
             warningMessage = "영문 소문자와 숫자만 사용하여, 4~12자의 아이디를 입력해주세요."
         )
 
@@ -214,11 +221,11 @@ fun SignUpScreen(
             noDuplicationText = "사용 가능한 닉네임입니다.",
             duplicationText = "이미 사용 중인 닉네임입니다.",
             onCheckDuplication = { input ->
-                signUpDuplicationViewModel.checkNicknameDuplication(
+                signUpViewModel.getNicknameDuplication(
                     input
                 )
             },
-            duplicationState = signUpDuplicationViewModel.nicknameDuplicationState.value,
+            duplicationState = signUpViewModel.nicknameDuplicationState.value,
             warningMessage = "2글자 이상 작성해주세요."
 
         )
@@ -302,7 +309,12 @@ fun SignUpScreen(
             value = "가입 완료",
             onClick = {
                 if (isFormValid) {
-                    onNextClick()
+                    signUpViewModel.postSignUp(id = id, password = password, nickName = nickname, district = selectedRegion)
+                    if (signUpViewModel.signUpState.value == true){
+                        onNextClick()
+                    }else{
+
+                    }
                 } else {
                     context.toast("중복 검사 또는 조건을 충족하는지 확인해주세요.")
                 }
@@ -321,16 +333,14 @@ fun SignUpScreen(
 @Composable
 fun SignUpScreenPreview() {
     SeollyongdanfrontendTheme {
-        //val signUpDuplicationViewModel: SignUpDuplicationViewModel = hiltViewModel()
-        //val regionViewModel: RegionViewModel = hiltViewModel()
 
         SignUpScreen(
             onNextClick = {
             },
             onBackClick = {
             },
-            signUpDuplicationViewModel = hiltViewModel(),
-            regionViewModel = hiltViewModel()
+            regionViewModel = hiltViewModel(),
+            signUpViewModel = viewModel()
         )
     }
 }

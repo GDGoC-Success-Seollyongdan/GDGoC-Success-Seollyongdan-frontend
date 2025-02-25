@@ -12,8 +12,7 @@ object ApiKeyStorage {
     const val DETAIL = "detail"
     const val REPORTS = "reports"
     const val POST = "post"
-    const val SIGNUP_FIRST = "signup-first"
-    const val SIGNUP_COMPLETE = "signup-complete"
+    const val SIGNUP= "signup"
     const val LOGIN = "login"
     const val DELETE_ACCOUNT = "delete-account"
     const val MYPAGE = "mypage"
@@ -26,5 +25,8 @@ object ApiKeyStorage {
     const val SIMILAR = "similar"
 
     const val REGION = "15063424/v1/uddi:257e1510-0eeb-44de-8883-8295c94dadf7"
+    const val CHECKUSERNAME = "check-username"
+    const val CHECKNICKNAME = "check-nickname"
+
 }
 
