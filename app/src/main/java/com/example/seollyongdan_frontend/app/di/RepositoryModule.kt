@@ -3,9 +3,11 @@ package com.example.seollyongdan_frontend.app.di
 import com.example.seollyongdan_frontend.data.repositoryimpl.ExampleRepositoryImpl
 import com.example.seollyongdan_frontend.data.repositoryimpl.RegionRepositoryImpl
 import com.example.seollyongdan_frontend.data.repositoryimpl.AuthRepositoryImpl
+import com.example.seollyongdan_frontend.data.repositoryimpl.HomeRepositoryImpl
 import com.example.seollyongdan_frontend.domain.repository.ExampleRepository
 import com.example.seollyongdan_frontend.domain.repository.RegionRepository
 import com.example.seollyongdan_frontend.domain.repository.AuthRepository
+import com.example.seollyongdan_frontend.domain.repository.HomeRepository
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -27,6 +29,12 @@ abstract class RepositoryModule {
     abstract fun bindAuthRepository(
         authRepositoryImpl: AuthRepositoryImpl
     ) : AuthRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindHomeRepository(
+        homeRepositoryImpl: HomeRepositoryImpl
+    ) : HomeRepository
 
     @Binds
     @Singleton
