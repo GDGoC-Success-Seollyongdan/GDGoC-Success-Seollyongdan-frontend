@@ -14,6 +14,8 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 import com.example.seollyongdan_frontend.app.RegionInterceptor
 import com.example.seollyongdan_frontend.BuildConfig
+import com.example.seollyongdan_frontend.app.intercepter.TokenInterceptor
+import javax.inject.Named
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -41,15 +43,33 @@ object RetrofitModule {
         }
     }
 
+    // 지역 API용 OkHttpClient
     @Provides
     @Singleton
-    fun provideOkHttpClient(
+    @Named("regionClient")
+    fun provideRegionOkHttpClient(
         regionInterceptor: RegionInterceptor,
         loggingInterceptor: HttpLoggingInterceptor
     ): OkHttpClient {
         return OkHttpClient.Builder()
-            .addInterceptor(regionInterceptor) // API 키 추가
+            .addInterceptor(regionInterceptor) // 지역 API 키 추가
             .addInterceptor(loggingInterceptor) // 로그 추가
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(30, TimeUnit.SECONDS)
+            .build()
+    }
+
+    // 애플리케이션 API용 OkHttpClient
+    @Provides
+    @Singleton
+    @Named("appClient")
+    fun provideAppOkHttpClient(
+        loggingInterceptor: HttpLoggingInterceptor,
+        tokenInterceptor: TokenInterceptor
+    ): OkHttpClient {
+        return OkHttpClient.Builder()
+            .addInterceptor(loggingInterceptor) // 로그 추가
+            .addInterceptor(tokenInterceptor) // 토큰 인터셉터 추가
             .connectTimeout(30, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
             .build()
@@ -58,7 +78,7 @@ object RetrofitModule {
     @RegionRetrofit
     @Provides
     @Singleton
-    fun provideRegionRetrofit(okHttpClient: OkHttpClient): Retrofit {
+    fun provideRegionRetrofit(@Named("regionClient") okHttpClient: OkHttpClient): Retrofit {
         val json = Json { ignoreUnknownKeys = true }
         return Retrofit.Builder()
             .baseUrl(REGION_BASE_URL)
@@ -70,7 +90,7 @@ object RetrofitModule {
     @SeollyongdanRetrofit
     @Provides
     @Singleton
-    fun provideSeollyongdanRetrofit(okHttpClient: OkHttpClient): Retrofit {
+    fun provideSeollyongdanRetrofit(@Named("appClient") okHttpClient: OkHttpClient): Retrofit {
         val json = Json { ignoreUnknownKeys = true }
         return Retrofit.Builder()
             .baseUrl(BuildConfig.SEOLLYONGDAN_BASE_URL) // 실제 API URL로 변경 필요

@@ -27,6 +27,8 @@ object ApiKeyStorage {
     const val REGION = "15063424/v1/uddi:257e1510-0eeb-44de-8883-8295c94dadf7"
     const val CHECKUSERNAME = "check-username"
     const val CHECKNICKNAME = "check-nickname"
+    const val TOWN = "town"
+    const val SAFETY = "safety"
 
 }
 

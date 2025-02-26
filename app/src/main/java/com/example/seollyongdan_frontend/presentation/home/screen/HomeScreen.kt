@@ -37,8 +37,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.seollyongdan_frontend.R
 import com.example.seollyongdan_frontend.presentation.home.navigation.HomeNavigator
 import com.example.seollyongdan_frontend.ui.theme.Success800
+import com.example.seollyongdan_frontend.ui.theme.Success900
 import com.example.seollyongdan_frontend.ui.theme.White
-import com.example.seollyongdan_frontend.ui.theme.b1Regular
+import com.example.seollyongdan_frontend.ui.theme.b1Semi
 import com.example.seollyongdan_frontend.ui.theme.h3Semi
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.naver.maps.geometry.LatLng
@@ -52,9 +53,10 @@ import kotlinx.coroutines.launch
 @Composable
 fun HomeRoute(
     navigator: HomeNavigator
-){
+) {
     val systemUiController = rememberSystemUiController()
-    val homeViewModel : HomeViewModel = hiltViewModel()
+    val homeViewModel: HomeViewModel = hiltViewModel()
+    val safetyViewModel: SafetyViewModel = hiltViewModel()
 
 
     SideEffect {
@@ -65,9 +67,10 @@ fun HomeRoute(
 
     HomeScreen(
         homeViewModel = homeViewModel,
-        onSearchClick = {navigator.navigateToSearch()},
-        onTrafficVisualizationClick = {navigator.navigateToTrafficVisualization()},
-        onSafetyVisualizationClick = {navigator.navigateToSafetyVisualization()}
+        safetyViewModel = safetyViewModel,
+        onSearchClick = { navigator.navigateToSearch() },
+        onTrafficVisualizationClick = { navigator.navigateToTrafficVisualization() },
+        onSafetyVisualizationClick = { navigator.navigateToSafetyVisualization() }
     )
 }
 
@@ -75,10 +78,11 @@ fun HomeRoute(
 @Composable
 fun HomeScreen(
     homeViewModel: HomeViewModel,
-    onSearchClick : () -> Unit,
-    onTrafficVisualizationClick : () -> Unit,
-    onSafetyVisualizationClick : () -> Unit
-){
+    safetyViewModel: SafetyViewModel,
+    onSearchClick: () -> Unit,
+    onTrafficVisualizationClick: () -> Unit,
+    onSafetyVisualizationClick: () -> Unit
+) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = false)
     val coroutineScope = rememberCoroutineScope()
     var showBottomSheet by remember { mutableStateOf(true) }
@@ -87,7 +91,10 @@ fun HomeScreen(
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition(LatLng(37.5663, 126.9779), 13.0)
     }
-    var districtName by remember { mutableStateOf("성북구")}
+
+    val district = homeViewModel.userData.district.split(" ")[0]
+
+    var districtName by remember { mutableStateOf(district) }
 
     // districtName이 변경될 때 바텀시트 새로 호출
     LaunchedEffect(districtName) {
@@ -144,13 +151,13 @@ fun HomeScreen(
                                 .padding(bottom = 16.dp)
                                 .navigationBarsPadding(),
                             colors = ButtonDefaults.buttonColors(
-                                containerColor = Success800
+                                containerColor = Success900
                             ),
-                            shape = RoundedCornerShape(8.dp)
+                            shape = RoundedCornerShape(20.dp)
                         ) {
                             Text(
                                 text = "상세 정보 보기",
-                                style = b1Regular,
+                                style = b1Semi,
                                 color = White
                             )
                         }
@@ -171,7 +178,15 @@ fun HomeScreen(
                     modifier = Modifier
                         .navigationBarsPadding()
                 ) {
-                    BottomSheetSwitcher(bottomSheetScreen, homeViewModel, onSearchClick,onTrafficVisualizationClick, onSafetyVisualizationClick, districtName)
+                    BottomSheetSwitcher(
+                        bottomSheetScreen,
+                        homeViewModel,
+                        safetyViewModel,
+                        onSearchClick,
+                        onTrafficVisualizationClick,
+                        onSafetyVisualizationClick,
+                        districtName
+                    )
                 }
             }
         }

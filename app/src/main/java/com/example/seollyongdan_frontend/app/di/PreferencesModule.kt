@@ -2,6 +2,8 @@ package com.example.seollyongdan_frontend.app.di
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Log
+import com.example.seollyongdan_frontend.app.intercepter.TokenInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,6 +18,13 @@ object PreferencesModule {
     @Provides
     @Singleton
     fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences {
-        return context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        val prefs = context.getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        Log.d("PreferencesModule", "SharedPreferences instance: $prefs")
+        return prefs    }
+
+    @Provides
+    @Singleton
+    fun provideTokenInterceptor(preferences: SharedPreferences): TokenInterceptor {
+        return TokenInterceptor(preferences)
     }
 }

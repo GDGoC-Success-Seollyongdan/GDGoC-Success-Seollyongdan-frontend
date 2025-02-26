@@ -30,7 +30,8 @@ import com.example.seollyongdan_frontend.ui.theme.h7Regular
 @Composable
 fun BottomSheetMainScreen(
     homeViewModel: HomeViewModel,
-    onSearchClick: () -> Unit
+    onSearchClick: () -> Unit,
+    districtName : String,
 ) {
     Column(
         modifier = Modifier
@@ -44,13 +45,12 @@ fun BottomSheetMainScreen(
 
         ) {
             Text(
-                //FIXME 설정한 구 받아오기
-                "성북구 ",
+                districtName,
                 color = Success800,
                 style = h5Bold
             )
             Text(
-                "상세 정보",
+                " 상세 정보",
                 color = Gray900,
                 style = h5Bold
             )

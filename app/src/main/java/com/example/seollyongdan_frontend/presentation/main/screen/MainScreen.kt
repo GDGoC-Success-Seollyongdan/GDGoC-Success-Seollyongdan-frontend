@@ -57,28 +57,28 @@ fun MainScreen(
     var selectedItem by rememberSaveable { mutableIntStateOf(0) }
     val items = listOf(
         BottomNavigationItem(
-            selectedIcon = ImageVector.vectorResource(id = R.drawable.ic_launcher_selected),
-            unselectedIcon = ImageVector.vectorResource(id = R.drawable.ic_launcher_unselected),
+            selectedIcon = ImageVector.vectorResource(id = R.drawable.ic_nav_home,),
+            unselectedIcon = ImageVector.vectorResource(id = R.drawable.ic_nav_home_unselected),
             label = "홈"
         ),
         BottomNavigationItem(
-            selectedIcon = ImageVector.vectorResource(id = R.drawable.ic_launcher_selected),
-            unselectedIcon = ImageVector.vectorResource(id = R.drawable.ic_launcher_unselected),
+            selectedIcon = ImageVector.vectorResource(id = R.drawable.ic_nav_search),
+            unselectedIcon = ImageVector.vectorResource(id = R.drawable.ic_nav_search_unselected),
             label = "검색"
         ),
         BottomNavigationItem(
-            selectedIcon = ImageVector.vectorResource(id = R.drawable.ic_launcher_selected),
-            unselectedIcon = ImageVector.vectorResource(id = R.drawable.ic_launcher_unselected),
+            selectedIcon = ImageVector.vectorResource(id = R.drawable.ic_nav_comm),
+            unselectedIcon = ImageVector.vectorResource(id = R.drawable.ic_nav_comm_unselected),
             label = "커뮤니티"
         ),
         BottomNavigationItem(
-            selectedIcon = ImageVector.vectorResource(id = R.drawable.ic_launcher_selected),
-            unselectedIcon = ImageVector.vectorResource(id = R.drawable.ic_launcher_unselected),
+            selectedIcon = ImageVector.vectorResource(id = R.drawable.ic_nav_guide),
+            unselectedIcon = ImageVector.vectorResource(id = R.drawable.ic_nav_guide_unselected),
             label = "가이드북"
         ),
         BottomNavigationItem(
-            selectedIcon = ImageVector.vectorResource(id = R.drawable.ic_launcher_selected),
-            unselectedIcon = ImageVector.vectorResource(id = R.drawable.ic_launcher_unselected),
+            selectedIcon = ImageVector.vectorResource(id = R.drawable.ic_nav_setting),
+            unselectedIcon = ImageVector.vectorResource(id = R.drawable.ic_nav_setting_unselected),
             label = "마이페이지"
         )
 
@@ -100,17 +100,9 @@ fun MainScreen(
                                     tint = Color.Unspecified
                                 )
                             },
-                            label = {
-                                Text(
-                                    text = item.label,
-                                    color = if(selectedItem == index) item.selectedText else item.unselectedText
-                                )
-                            },
                             selected = selectedItem == index,
                             onClick = { selectedItem = index },
                             colors = NavigationBarItemDefaults.colors(
-                                selectedTextColor = Color.Black,
-                                unselectedTextColor = Color.Black,
                                 indicatorColor = White
                             ),
                         )
