@@ -3,9 +3,11 @@ package com.example.seollyongdan_frontend.app.di
 import com.example.seollyongdan_frontend.data.datasource.ExampleDataSource
 import com.example.seollyongdan_frontend.data.datasource.RegionDataSource
 import com.example.seollyongdan_frontend.data.datasource.AuthDataSource
+import com.example.seollyongdan_frontend.data.datasource.HomeDataSource
 import com.example.seollyongdan_frontend.data.datasourceimpl.ExampleDataSourceImpl
 import com.example.seollyongdan_frontend.data.datasourceimpl.RegionDataSourceImpl
 import com.example.seollyongdan_frontend.data.datasourceimpl.AuthDataSourceImpl
+import com.example.seollyongdan_frontend.data.datasourceimpl.HomeDataSourceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -28,6 +30,11 @@ abstract class DataSourceModule {
         authDataSourceImpl: AuthDataSourceImpl
     ) : AuthDataSource
 
+    @Binds
+    @Singleton
+    abstract fun bindHomeDataSource(
+        homeDataSourceImpl: HomeDataSourceImpl
+    ) : HomeDataSource
 
     @Binds
     @Singleton

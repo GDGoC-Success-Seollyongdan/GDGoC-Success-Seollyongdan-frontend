@@ -55,6 +55,7 @@ fun HomeRoute(
 ){
     val systemUiController = rememberSystemUiController()
     val homeViewModel : HomeViewModel = hiltViewModel()
+    val safetyViewModel : SafetyViewModel = hiltViewModel()
 
 
     SideEffect {
@@ -65,6 +66,7 @@ fun HomeRoute(
 
     HomeScreen(
         homeViewModel = homeViewModel,
+        safetyViewModel = safetyViewModel,
         onSearchClick = {navigator.navigateToSearch()},
         onTrafficVisualizationClick = {navigator.navigateToTrafficVisualization()},
         onSafetyVisualizationClick = {navigator.navigateToSafetyVisualization()}
@@ -75,6 +77,7 @@ fun HomeRoute(
 @Composable
 fun HomeScreen(
     homeViewModel: HomeViewModel,
+    safetyViewModel: SafetyViewModel,
     onSearchClick : () -> Unit,
     onTrafficVisualizationClick : () -> Unit,
     onSafetyVisualizationClick : () -> Unit
@@ -87,7 +90,10 @@ fun HomeScreen(
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition(LatLng(37.5663, 126.9779), 13.0)
     }
-    var districtName by remember { mutableStateOf("성북구")}
+
+    val district = homeViewModel.userData.district.split(" ")[0]
+
+    var districtName by remember { mutableStateOf(district)}
 
     // districtName이 변경될 때 바텀시트 새로 호출
     LaunchedEffect(districtName) {
@@ -171,7 +177,7 @@ fun HomeScreen(
                     modifier = Modifier
                         .navigationBarsPadding()
                 ) {
-                    BottomSheetSwitcher(bottomSheetScreen, homeViewModel, onSearchClick,onTrafficVisualizationClick, onSafetyVisualizationClick, districtName)
+                    BottomSheetSwitcher(bottomSheetScreen, homeViewModel, safetyViewModel, onSearchClick,onTrafficVisualizationClick, onSafetyVisualizationClick, districtName)
                 }
             }
         }

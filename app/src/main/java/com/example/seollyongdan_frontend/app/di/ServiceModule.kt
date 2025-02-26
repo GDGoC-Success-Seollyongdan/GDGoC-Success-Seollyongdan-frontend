@@ -2,6 +2,7 @@ package com.example.seollyongdan_frontend.app.di
 
 import com.example.seollyongdan_frontend.data.service.AuthApiService
 import com.example.seollyongdan_frontend.data.service.ExampleApiService
+import com.example.seollyongdan_frontend.data.service.HomeApiService
 import com.example.seollyongdan_frontend.data.service.RegionApiService
 import dagger.Binds
 import dagger.Module
@@ -22,10 +23,15 @@ class ServiceModule {
 
     @Provides
     @Singleton
-    fun binAuthApiService(
+    fun bindAuthApiService(
         @SeollyongdanRetrofit retrofit: Retrofit
     ) : AuthApiService = retrofit.create(AuthApiService::class.java)
 
+    @Provides
+    @Singleton
+    fun bindHomeApiService(
+        @SeollyongdanRetrofit retrofit: Retrofit
+    ) : HomeApiService = retrofit.create(HomeApiService::class.java)
 
     @Provides
     @Singleton
