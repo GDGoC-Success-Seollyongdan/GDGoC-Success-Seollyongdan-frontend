@@ -3,6 +3,7 @@ package com.example.seollyongdan_frontend.data.datasourceimpl
 import com.example.seollyongdan_frontend.data.datasource.HomeDataSource
 import com.example.seollyongdan_frontend.data.dto.SeollyongdanBaseResponse
 import com.example.seollyongdan_frontend.data.dto.response.ResponseHomeSafetyDto
+import com.example.seollyongdan_frontend.data.dto.response.ResponseRealEstateDto
 import com.example.seollyongdan_frontend.data.service.HomeApiService
 import javax.inject.Inject
 
@@ -12,5 +13,9 @@ class HomeDataSourceImpl @Inject constructor(
 
     override suspend fun getHomeSafety(townId: Int): SeollyongdanBaseResponse<ResponseHomeSafetyDto> {
         return homeApiService.getTownSafety(townId)
+    }
+
+    override suspend fun getHomeRealEstate(townId: Int): SeollyongdanBaseResponse<ResponseRealEstateDto> {
+        return homeApiService.getTownRealEstate(townId)
     }
 }

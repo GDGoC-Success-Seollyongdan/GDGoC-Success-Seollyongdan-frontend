@@ -8,6 +8,7 @@ fun BottomSheetSwitcher(
     screen: BottomSheetScreen,
     homeViewModel: HomeViewModel,
     safetyViewModel: SafetyViewModel,
+    realEstateViewModel: RealEstateViewModel,
     onSearchClick : () -> Unit,
     onTrafficVisualizationClick : () -> Unit,
     onSafetyVisualizationClick : () -> Unit,
@@ -15,7 +16,7 @@ fun BottomSheetSwitcher(
 ){
     when (screen){
         BottomSheetScreen.HOME -> BottomSheetMainScreen(homeViewModel, onSearchClick,districtName)
-        BottomSheetScreen.REAL_ESTATE -> BottomSheetRealEstateScreen(homeViewModel, districtName)
+        BottomSheetScreen.REAL_ESTATE -> BottomSheetRealEstateScreen(homeViewModel, realEstateViewModel, districtName)
         BottomSheetScreen.LIFE -> BottomSheetLifeScreen(homeViewModel, districtName)
         BottomSheetScreen.REVIEW -> BottomSheetReviewScreen(homeViewModel, districtName)
         BottomSheetScreen.SAFETY -> BottomSheetSafetyScreen(homeViewModel, safetyViewModel, districtName, onSafetyVisualizationClick)

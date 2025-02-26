@@ -56,6 +56,7 @@ fun HomeRoute(
     val systemUiController = rememberSystemUiController()
     val homeViewModel : HomeViewModel = hiltViewModel()
     val safetyViewModel : SafetyViewModel = hiltViewModel()
+    val realEstateViewModel: RealEstateViewModel = hiltViewModel()
 
 
     SideEffect {
@@ -67,6 +68,7 @@ fun HomeRoute(
     HomeScreen(
         homeViewModel = homeViewModel,
         safetyViewModel = safetyViewModel,
+        realEstateViewModel = realEstateViewModel,
         onSearchClick = {navigator.navigateToSearch()},
         onTrafficVisualizationClick = {navigator.navigateToTrafficVisualization()},
         onSafetyVisualizationClick = {navigator.navigateToSafetyVisualization()}
@@ -78,6 +80,7 @@ fun HomeRoute(
 fun HomeScreen(
     homeViewModel: HomeViewModel,
     safetyViewModel: SafetyViewModel,
+    realEstateViewModel: RealEstateViewModel,
     onSearchClick : () -> Unit,
     onTrafficVisualizationClick : () -> Unit,
     onSafetyVisualizationClick : () -> Unit
@@ -177,7 +180,7 @@ fun HomeScreen(
                     modifier = Modifier
                         .navigationBarsPadding()
                 ) {
-                    BottomSheetSwitcher(bottomSheetScreen, homeViewModel, safetyViewModel, onSearchClick,onTrafficVisualizationClick, onSafetyVisualizationClick, districtName)
+                    BottomSheetSwitcher(bottomSheetScreen, homeViewModel, safetyViewModel, realEstateViewModel, onSearchClick,onTrafficVisualizationClick, onSafetyVisualizationClick, districtName)
                 }
             }
         }
