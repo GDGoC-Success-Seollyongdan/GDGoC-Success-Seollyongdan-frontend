@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -29,11 +30,13 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.sellyongdan_frontend.util.toast
 import com.example.seollyongdan_frontend.R
+import com.example.seollyongdan_frontend.presentation.auth.navigation.AuthNavigator
 import com.example.seollyongdan_frontend.ui.component.AuthButton
 import com.example.seollyongdan_frontend.ui.component.AuthTextField
-import com.example.seollyongdan_frontend.presentation.auth.navigation.AuthNavigator
 import com.example.seollyongdan_frontend.ui.theme.Gray100
 import com.example.seollyongdan_frontend.ui.theme.Info400
 import com.example.seollyongdan_frontend.ui.theme.SeollyongdanfrontendTheme
@@ -50,6 +53,7 @@ fun LoginRoute(
 ) {
     val systemUiController = rememberSystemUiController()
     val keyboardController = LocalSoftwareKeyboardController.current
+    val loginViewModel: LoginViewModel = hiltViewModel()
 
     SideEffect {
         systemUiController.setStatusBarColor(
@@ -62,14 +66,16 @@ fun LoginRoute(
             keyboardController?.hide()
             navigator.navigateMain()
         },
-        onSignUpClick = { navigator.navigateSignUp() }
+        onSignUpClick = { navigator.navigateSignUp() },
+        loginViewModel = loginViewModel
     )
 }
 
 @Composable
 fun LoginScreen(
     onMainClick: () -> Unit = {},
-    onSignUpClick: () -> Unit = {}
+    onSignUpClick: () -> Unit = {},
+    loginViewModel: LoginViewModel
 ) {
 
     Column(
@@ -81,6 +87,20 @@ fun LoginScreen(
         var id by remember { mutableStateOf("") }
         var password by remember { mutableStateOf("") }
         val context = LocalContext.current
+
+        val loginState = loginViewModel.loginState.value
+        val loginError = loginViewModel.loginError.value
+
+
+        // 로그인 성공 시 화면 전환
+        LaunchedEffect(loginState) {
+            if (loginState == true) {
+                onMainClick() // 메인 화면으로 이동
+                loginViewModel.resetLoginState() // 로그인 상태 초기화
+            } else if (loginState == false) {
+                context.toast(loginError ?: "로그인에 실패하였습니다.")
+            }
+        }
 
         Spacer(modifier = Modifier.height(105.dp))
 
@@ -103,7 +123,7 @@ fun LoginScreen(
         }
 
         Text(text = buildAnnotatedString {
-            withStyle(style = SpanStyle(color = Info400)){
+            withStyle(style = SpanStyle(color = Info400)) {
                 append("서울시 사랑방")
             }
             append("입니다")
@@ -127,7 +147,7 @@ fun LoginScreen(
         Spacer(modifier = Modifier.height(20.dp))
         AuthButton(value = "로그인") {
             if (id.isNotBlank() && password.isNotBlank()) {
-                onMainClick()
+                loginViewModel.getLogin(id, password)
             } else {
                 context.toast("아직 입력되지 않은 필드가 존재합니다.")
             }
@@ -178,7 +198,8 @@ fun LoginScreenPreview() {
     SeollyongdanfrontendTheme {
         LoginScreen(
             onMainClick = {},
-            onSignUpClick = {}
+            onSignUpClick = {},
+            loginViewModel = viewModel()
         )
     }
 }
