@@ -8,4 +8,8 @@ class MypageNavigator(
     fun navigateBack(){
         navController.popBackStack()
     }
+
+    fun navigateLogin(){
+        navController.navigate(route = "login")
+    }
 }

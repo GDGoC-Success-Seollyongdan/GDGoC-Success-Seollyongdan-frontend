@@ -50,7 +50,7 @@ fun BottomSheetMainScreen(
                 style = h5Bold
             )
             Text(
-                "상세 정보",
+                " 상세 정보",
                 color = Gray900,
                 style = h5Bold
             )
