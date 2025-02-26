@@ -1,6 +1,7 @@
 package com.example.seollyongdan_frontend.presentation.auth.screen
 
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -49,7 +50,11 @@ class LoginViewModel @Inject constructor(
     private fun saveToken(token : String){
         preferences.edit()
             .putString("USER_TOKEN", token)
-            .apply()
+            .commit()
+
+        // 저장된 토큰 로그 출력
+        val savedToken = preferences.getString("USER_TOKEN", null)
+        Log.d("LoginViewModel", "Saved Token: $savedToken")
 
     }
 

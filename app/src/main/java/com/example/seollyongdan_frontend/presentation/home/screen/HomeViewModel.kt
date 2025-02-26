@@ -14,6 +14,13 @@ class HomeViewModel @Inject constructor() : ViewModel() {
     fun setBottomSheetScreen(screen: BottomSheetScreen) {
         _bottomSheetScreen.value = screen
     }
+
+    val userData = UserEntity( //로그인 성공 시에 api로 받아오도록 수정 필요
+            district = "용산구 청파로1가",
+            isResident = true,
+            nickname = "김눈송"
+        )
+
 }
 
 //바텀 시트에서 보여줄 ui 결정

@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -19,6 +18,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -44,32 +44,31 @@ import com.example.seollyongdan_frontend.ui.theme.h7Semi
 @Composable
 fun BottomSheetSafetyScreen(
     homeViewModel: HomeViewModel,
+    safetyViewModel: SafetyViewModel,
     districtName: String,
     onSafetyVisualizationClick : () -> Unit
 ) {
     val onBackClick = { homeViewModel.setBottomSheetScreen(BottomSheetScreen.HOME) }
+    val townId = townNameToId(districtName)
+
+    LaunchedEffect(districtName){
+        safetyViewModel.getHomeSafety(townId)
+    }
 
     val crimeYears = listOf("2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023")
-    val crimeValues = listOf(
-        3.2f,
-        3.0f,
-        3.1f,
-        2.9f,
-        2.8f,
-        2.7f,
-        2.6f,
-        2.5f,
-        2.6f
-    ) //10년간 범죄율 - 백엔드에서 받아오는 형태로 수정 필요
-    val SafetyTrue = true //안심시설 상위 5위 여부 - 백엔드에서 받아오는 형태로 수정 필요
+    val crimeValues = safetyViewModel.crimeData //10년간 범죄율
+    val SafetyTrue = safetyViewModel.isSafe //안심시설 상위 5위 여부
 
-    val safetyDistricts = listOf("강남구", "중구", "성북구", "송파구", "동작구", "기타")
-    val safetyValues = listOf(30f, 20f, 15f, 10f, 15f, 10f)
+    val safetyDistricts = listOf("강남구", "중구", "성북구", "송파구", "동작구", "기타") //데이터측에서 실제값 전달 받아야 함
+    val safetyValues = listOf(30f, 20f, 15f, 10f, 15f, 10f) //데이터측에서 실제값 전달 받아야 함
 
-    val safetyTableData = listOf("123", "100", "234") //해당 구 안심시설 개수 - 백엔드에서 받아오는 형태로 수정 필요
+    val safetyTableData = listOf(
+        safetyViewModel.cctvCount ?: "알 수 없음",
+        safetyViewModel.policeStationsCount ?: "알 수 없음",
+        safetyViewModel.fireStationsCount ?: "알 수 없음"
+    ) //해당 구 안심시설 개수
 
-
-
+    val defaultValues = listOf(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f)
 
     Column(
         modifier = Modifier
@@ -122,12 +121,11 @@ fun BottomSheetSafetyScreen(
 
                 Spacer(modifier = Modifier.height(5.dp))
 
-                LineGraph(crimeYears, crimeValues)
+                LineGraph(crimeYears, crimeValues ?: defaultValues)
             }
 
         }
 
-        //Spacer(modifier = Modifier.height(10.dp))
 
         Box(
             modifier = Modifier
@@ -182,6 +180,7 @@ fun BottomSheetSafetyScreen(
 fun SafetyScreenPreview() {
     BottomSheetSafetyScreen(
         homeViewModel = viewModel(),
+        safetyViewModel = viewModel(),
         districtName = "성북구",
         onSafetyVisualizationClick = {}
     )
