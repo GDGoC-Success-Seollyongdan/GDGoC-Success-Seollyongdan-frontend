@@ -48,7 +48,7 @@ fun MainToVisualizationButton(
                 modifier = Modifier
                     .weight(1f)
             ) {
-                Text("지도로 한 눈에 보는", style = b4Semi, color = White)
+                Text("한 눈에 보는", style = b4Semi, color = White)
                 Spacer(modifier = Modifier.height(5.dp))
                 Text(text, style = h7Bold, color = White)
             }

@@ -57,6 +57,7 @@ fun HomeRoute(
     val systemUiController = rememberSystemUiController()
     val homeViewModel: HomeViewModel = hiltViewModel()
     val safetyViewModel: SafetyViewModel = hiltViewModel()
+    val trafficViewModel : TrafficViewModel = hiltViewModel()
 
 
     SideEffect {
@@ -68,9 +69,10 @@ fun HomeRoute(
     HomeScreen(
         homeViewModel = homeViewModel,
         safetyViewModel = safetyViewModel,
+        trafficViewModel = trafficViewModel,
         onSearchClick = { navigator.navigateToSearch() },
-        onTrafficVisualizationClick = { navigator.navigateToTrafficVisualization() },
-        onSafetyVisualizationClick = { navigator.navigateToSafetyVisualization() }
+        onTrafficVisualizationClick = { navigator.navigateToTrafficVisualizationTemp() },
+        onSafetyVisualizationClick = { navigator.navigateToSafetyVisualizationTemp() }
     )
 }
 
@@ -79,6 +81,7 @@ fun HomeRoute(
 fun HomeScreen(
     homeViewModel: HomeViewModel,
     safetyViewModel: SafetyViewModel,
+    trafficViewModel: TrafficViewModel,
     onSearchClick: () -> Unit,
     onTrafficVisualizationClick: () -> Unit,
     onSafetyVisualizationClick: () -> Unit
@@ -182,6 +185,7 @@ fun HomeScreen(
                         bottomSheetScreen,
                         homeViewModel,
                         safetyViewModel,
+                        trafficViewModel,
                         onSearchClick,
                         onTrafficVisualizationClick,
                         onSafetyVisualizationClick,
