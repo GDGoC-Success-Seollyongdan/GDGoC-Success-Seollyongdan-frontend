@@ -57,13 +57,13 @@ fun NavGraphBuilder.communityNavGraph(
     composable(
         route = "communityDetail?id={id}?district={district}",
         arguments = listOf(
-            navArgument("id"){type = NavType.LongType},
+            navArgument("id"){type = NavType.IntType},
             navArgument("district") {type = NavType.StringType}
         )
     ) { backStackEntry ->
         CommunityDetailRoute(
             navigator = navigator,
-            id = backStackEntry.arguments?.getLong("id") ?: -1,
+            id = backStackEntry.arguments?.getInt("id") ?: -1,
             district = (backStackEntry.arguments?.getString("district") ?: -1).toString()
             )
     }

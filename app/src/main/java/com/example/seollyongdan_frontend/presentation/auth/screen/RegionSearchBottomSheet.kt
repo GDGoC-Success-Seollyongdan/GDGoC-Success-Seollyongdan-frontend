@@ -2,18 +2,17 @@ package com.example.seollyongdan_frontend.presentation.auth.screen
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
@@ -21,7 +20,6 @@ import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -55,10 +53,16 @@ fun RegionSearchBottomSheet(
     //    regions.filter { it.contains(searchQuery, ignoreCase = true) }
     //}
 
-    ModalBottomSheet(onDismissRequest = onDismiss, sheetState = sheetState, containerColor = Color.White) {
-        Column(modifier = Modifier
-            .padding(16.dp)
-            .fillMaxHeight(0.8f)) {
+    ModalBottomSheet(
+        onDismissRequest = onDismiss,
+        sheetState = sheetState,
+        containerColor = Color.White
+    ) {
+        Column(
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxHeight(0.8f)
+        ) {
 
             Spacer(modifier = Modifier.height(11.dp))
 
@@ -67,7 +71,7 @@ fun RegionSearchBottomSheet(
                     .height(50.dp)
                     .fillMaxWidth(),
                 value = searchQuery,
-                onValueChange = {searchQuery = it},
+                onValueChange = { searchQuery = it },
                 placeholder = {
                     Text(
                         modifier = Modifier.fillMaxWidth(),
@@ -89,31 +93,31 @@ fun RegionSearchBottomSheet(
 
             Spacer(modifier = Modifier.height(15.dp))
 
-            Box(
+            Column(
                 modifier = Modifier
-                    .weight(1f)
                     .fillMaxWidth()
-            ){
-                LazyColumn {
-                    items(filteredRegions) { region ->
-                        Text(
-                            text = region,
-                            style = h7Regular,
-                            color = Gray700,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable {
-                                    onItemSelected(region)
-                                    onDismiss()
-                                }
-                                .padding(16.dp)
-                        )
-                    }
+                    .weight(1f)
+                    .verticalScroll(rememberScrollState()) // 스크롤 추가
+            ) {
+                filteredRegions.forEach { region ->
+                    Text(
+                        text = region,
+                        style = h7Regular,
+                        color = Gray700,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable {
+                                onItemSelected(region)
+                                onDismiss()
+                            }
+                            .padding(16.dp)
+                    )
                 }
             }
         }
     }
 }
+
 
 @Preview
 @Composable

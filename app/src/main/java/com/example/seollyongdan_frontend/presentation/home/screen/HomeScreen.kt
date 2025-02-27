@@ -34,8 +34,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.seollyongdan_frontend.R
+import com.example.seollyongdan_frontend.data.dto.response.ResponseUserDto
 import com.example.seollyongdan_frontend.presentation.home.navigation.HomeNavigator
+import com.example.seollyongdan_frontend.presentation.main.screen.MainViewModel
 import com.example.seollyongdan_frontend.ui.theme.Success800
 import com.example.seollyongdan_frontend.ui.theme.Success900
 import com.example.seollyongdan_frontend.ui.theme.White
@@ -58,6 +61,7 @@ fun HomeRoute(
     val homeViewModel: HomeViewModel = hiltViewModel()
     val safetyViewModel: SafetyViewModel = hiltViewModel()
     val trafficViewModel : TrafficViewModel = hiltViewModel()
+    val mainViewModel : MainViewModel = hiltViewModel()
     val homeViewModel : HomeViewModel = hiltViewModel()
     val safetyViewModel : SafetyViewModel = hiltViewModel()
     val realEstateViewModel: RealEstateViewModel = hiltViewModel()
@@ -75,7 +79,8 @@ fun HomeRoute(
         trafficViewModel = trafficViewModel,
         onSearchClick = { navigator.navigateToSearch() },
         onTrafficVisualizationClick = { navigator.navigateToTrafficVisualizationTemp() },
-        onSafetyVisualizationClick = { navigator.navigateToSafetyVisualizationTemp() }
+        onSafetyVisualizationClick = { navigator.navigateToSafetyVisualizationTemp() },
+        mainViewModel = mainViewModel,
         realEstateViewModel = realEstateViewModel
     )
 }
@@ -89,7 +94,8 @@ fun HomeScreen(
     realEstateViewModel: RealEstateViewModel,
     onSearchClick: () -> Unit,
     onTrafficVisualizationClick: () -> Unit,
-    onSafetyVisualizationClick: () -> Unit
+    onSafetyVisualizationClick: () -> Unit,
+    mainViewModel: MainViewModel
 ) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = false)
     val coroutineScope = rememberCoroutineScope()
@@ -100,9 +106,19 @@ fun HomeScreen(
         position = CameraPosition(LatLng(37.5663, 126.9779), 13.0)
     }
 
-    val district = homeViewModel.userData.district.split(" ")[0]
+    LaunchedEffect(Unit) {
+        mainViewModel.getUserInfo()
+    }
 
-    var districtName by remember { mutableStateOf(district) }
+    val userDto by mainViewModel.userDto.collectAsStateWithLifecycle()
+
+    val district = userDto?.district ?: "용산구 후암동"
+
+    var districtName by remember { mutableStateOf(district.split(" ")[0]) } //구만 따로 저장
+
+    LaunchedEffect(userDto) {
+        districtName = userDto?.district?.split(" ")?.get(0) ?: "용산구"
+    }
 
     // districtName이 변경될 때 바텀시트 새로 호출
     LaunchedEffect(districtName) {

@@ -67,7 +67,7 @@ fun CommunitySearchRoute(
 @Composable
 fun CommunitySearchScreen(
     onBackClick: () -> Unit,
-    onDetailClick: (Long, String) -> Unit,
+    onDetailClick: (Int, String) -> Unit,
     district: String,
     searchViewModel: CommunitySearchViewModel
 ) {

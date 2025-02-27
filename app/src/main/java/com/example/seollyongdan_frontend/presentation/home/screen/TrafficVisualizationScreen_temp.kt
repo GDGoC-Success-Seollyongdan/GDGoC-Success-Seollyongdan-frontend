@@ -16,6 +16,8 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -64,15 +66,18 @@ fun TrafficVisualizationScreen_temp(
 ) {
     val context = LocalContext.current
 
-    LaunchedEffect(Unit) {
-        trafficVisualizationViewModel.getCongestion()
-    }
+    //LaunchedEffect(Unit) {
+    //    trafficVisualizationViewModel.getCongestion()
+    //}
 
-    // '높음', '낮음', '기타' 인덱스를 가져오기
-    val highCongestionIndexes = trafficVisualizationViewModel.highCongestionIndexes
-    val lowCongestionIndexes = trafficVisualizationViewModel.lowCongestionIndexes
-    val otherCongestionIndexes = trafficVisualizationViewModel.otherCongestionIndexes
+    //'높음', '낮음', '기타' 인덱스를 가져오기
+    //val highCongestionIndexes by trafficVisualizationViewModel.highCongestionIndexes.collectAsState()
+    //val lowCongestionIndexes by trafficVisualizationViewModel.lowCongestionIndexes.collectAsState()
+    //val otherCongestionIndexes by trafficVisualizationViewModel.otherCongestionIndexes.collectAsState()
 
+    val highCongestionIndexes = listOf(1,3,4,12,14,15,22,23,)
+    val lowCongestionIndexes = listOf(5,7,9,10,11,13,18,19,20,)
+    val otherCongestionIndexes = listOf(2,6,8,16,17,21,24,25)
 
     Box(modifier = Modifier.fillMaxSize()) {
         Scaffold(
@@ -120,11 +125,11 @@ fun TrafficVisualizationScreen_temp(
                 Column {
                     CrimeBox(highCongestionIndexes, "높음")
 
-                    Spacer(modifier = Modifier.height(5.dp))
+                    Spacer(modifier = Modifier.height(20.dp))
 
                     CrimeBox(otherCongestionIndexes, "보통")
 
-                    Spacer(modifier = Modifier.height(5.dp))
+                    Spacer(modifier = Modifier.height(20.dp))
 
                     CrimeBox(lowCongestionIndexes, "낮음")
 

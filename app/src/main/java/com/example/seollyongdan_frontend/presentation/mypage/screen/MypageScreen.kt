@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.seollyongdan_frontend.R
+import com.example.seollyongdan_frontend.data.dto.response.ResponseUserDto
 import com.example.seollyongdan_frontend.presentation.mypage.navigation.MypageNavigator
 import com.example.seollyongdan_frontend.ui.component.AuthButton
 import com.example.seollyongdan_frontend.ui.theme.h1Bold
@@ -26,7 +27,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
 fun MypageRoute(
-    navigator: MypageNavigator
+    navigator: MypageNavigator,
 ){
     val systemUiController = rememberSystemUiController()
     val mypageViewModel : MypageViewModel = hiltViewModel()

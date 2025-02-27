@@ -1,6 +1,7 @@
 package com.example.seollyongdan_frontend.presentation.home.screen
 
 import androidx.lifecycle.ViewModel
+import com.example.seollyongdan_frontend.presentation.main.screen.UserEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,11 +16,6 @@ class HomeViewModel @Inject constructor() : ViewModel() {
         _bottomSheetScreen.value = screen
     }
 
-    val userData = UserEntity( //로그인 성공 시에 api로 받아오도록 수정 필요
-            district = "용산구 청파로1가",
-            isResident = true,
-            nickname = "김눈송"
-        )
 
 }
 

@@ -17,6 +17,8 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -73,15 +75,19 @@ fun SafetyVisualizationScreen_temp(
 ) {
     val context = LocalContext.current
 
-    LaunchedEffect(Unit) {
-        safetyVisualizationViewModel.getCrimeFreq()
-    }
+    //LaunchedEffect(Unit) {
+    //    safetyVisualizationViewModel.getCrimeFreq()
+    //}
+
 
     // '높음', '낮음', '기타' 인덱스를 가져오기
-    val highCrimeIndexes = safetyVisualizationViewModel.highCrimeIndexes
-    val lowCrimeIndexes = safetyVisualizationViewModel.lowCrimeIndexes
-    val otherCrimeIndexes = safetyVisualizationViewModel.otherCrimeIndexes
+    //val highCrimeIndexes by safetyVisualizationViewModel.highCrimeIndexes.collectAsState()
+    //val lowCrimeIndexes by safetyVisualizationViewModel.lowCrimeIndexes.collectAsState()
+    //val otherCrimeIndexes by safetyVisualizationViewModel.otherCrimeIndexes.collectAsState()
 
+    val highCrimeIndexes = listOf(1,4,5,13,15,18,20,)
+    val lowCrimeIndexes = listOf(2,3,8,10,11,12,14,16,17,19,21,23,24,25)
+    val otherCrimeIndexes = listOf(6,7,9,22)
 
     Box(modifier = Modifier.fillMaxSize()) {
         Scaffold(
@@ -130,11 +136,11 @@ fun SafetyVisualizationScreen_temp(
                 Column {
                     CrimeBox(highCrimeIndexes, "높음")
 
-                    Spacer(modifier = Modifier.height(5.dp))
+                    Spacer(modifier = Modifier.height(20.dp))
 
                     CrimeBox(otherCrimeIndexes, "보통")
 
-                    Spacer(modifier = Modifier.height(5.dp))
+                    Spacer(modifier = Modifier.height(20.dp))
 
                     CrimeBox(lowCrimeIndexes, "낮음")
 

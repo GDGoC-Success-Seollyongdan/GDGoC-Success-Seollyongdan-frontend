@@ -7,7 +7,7 @@ data class CommunityPostDetailEntity(
 }
 
 data class CommentEntity(
-    val id: Long,
+    val id: Int,
     val userName: String,
     val userDistrict: String,
     val isResident: Boolean,

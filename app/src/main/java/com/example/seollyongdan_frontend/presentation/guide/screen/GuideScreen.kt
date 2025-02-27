@@ -16,6 +16,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.seollyongdan_frontend.R
+import com.example.seollyongdan_frontend.data.dto.response.ResponseUserDto
 import com.example.seollyongdan_frontend.presentation.guide.navigation.GuideNavigator
 import com.example.seollyongdan_frontend.ui.theme.h1Bold
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -23,6 +24,7 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 @Composable
 fun GuideRoute(
     navigator: GuideNavigator,
+
 ){
     val systemUiController = rememberSystemUiController()
 

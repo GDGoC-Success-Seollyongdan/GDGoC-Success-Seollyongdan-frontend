@@ -15,7 +15,6 @@
     import androidx.compose.material.icons.filled.Search
     import androidx.compose.material3.ExperimentalMaterial3Api
     import androidx.compose.material3.Icon
-    import androidx.compose.material3.ModalBottomSheet
     import androidx.compose.material3.Scaffold
     import androidx.compose.material3.Text
     import androidx.compose.material3.TopAppBar
@@ -31,6 +30,7 @@
     import androidx.compose.ui.tooling.preview.Preview
     import androidx.compose.ui.unit.dp
     import com.example.seollyongdan_frontend.R
+    import com.example.seollyongdan_frontend.data.dto.response.ResponseUserDto
     import com.example.seollyongdan_frontend.presentation.search.navigation.SearchNavigator
     import com.example.seollyongdan_frontend.ui.component.DistrictGroupButton
     import com.example.seollyongdan_frontend.ui.theme.Gray100
@@ -41,11 +41,10 @@
     import com.example.seollyongdan_frontend.ui.theme.h5Semi
     import com.example.seollyongdan_frontend.ui.theme.h7Semi
     import com.google.accompanist.systemuicontroller.rememberSystemUiController
-    import dagger.Component
-    
+
     @Composable
     fun SearchRoute(
-        navigator: SearchNavigator
+        navigator: SearchNavigator,
     ){
         val systemUiController = rememberSystemUiController()
     
