@@ -12,13 +12,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.seollyongdan_frontend.data.dto.response.ResponseCommunityPostCommentDto
+import com.example.seollyongdan_frontend.ui.component.CommunityCommentProfileBox
 import com.example.seollyongdan_frontend.ui.component.CommunityProfileBox
 import com.example.seollyongdan_frontend.ui.theme.Gray100
 import com.example.seollyongdan_frontend.ui.theme.b2Regular
 
 @Composable
 fun CommunityDetailCommentItem(
-    data: CommentEntity,
+    data: ResponseCommunityPostCommentDto,
     communityDistrict: String
 ) {
     Column {
@@ -30,12 +32,8 @@ fun CommunityDetailCommentItem(
 
         ) {
 
-            CommunityProfileBox(
+            CommunityCommentProfileBox(
                 communityDistrict = communityDistrict,
-                userDistrict = data.userDistrict,
-                userName = data.userName,
-                isResident = data.isResident,
-                time = data.postTime
             )
 
             Spacer(modifier = Modifier.height(15.dp))
@@ -61,13 +59,9 @@ fun CommunityDetailCommentItem(
 @Composable
 fun DetailCommentItemPreview() {
     val data =
-        CommentEntity(
-            id = 1,
-            userName = "박눈송",
-            userDistrict = "용산구 청파로2가",
-            isResident = true,
+        ResponseCommunityPostCommentDto(
+            commentId = 1,
             content = "맞아요!",
-            postTime = 1
         )
     CommunityDetailCommentItem(
         data, communityDistrict = "용산구 청파로2가"

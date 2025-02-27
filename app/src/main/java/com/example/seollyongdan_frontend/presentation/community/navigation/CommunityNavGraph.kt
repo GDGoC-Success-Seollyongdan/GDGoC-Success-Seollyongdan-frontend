@@ -42,15 +42,16 @@ fun NavGraphBuilder.communityNavGraph(
     }
 
     composable(
-        route = "communityWrite?district={district}",
+        route = "communityWrite?district={district}&nickname={nickname}",
         arguments = listOf(
-            navArgument("district") {type = NavType.StringType}
+            navArgument("district") { type = NavType.StringType },
+            navArgument("nickname") { type = NavType.StringType }
         )
     ) { backStackEntry ->
         CommunityWriteRoute(
             navigator = navigator,
-            district = (backStackEntry.arguments?.getString("district") ?: -1).toString()
-
+            district = backStackEntry.arguments?.getString("district") ?: "",
+            nickname = backStackEntry.arguments?.getString("nickname") ?: ""
         )
     }
 

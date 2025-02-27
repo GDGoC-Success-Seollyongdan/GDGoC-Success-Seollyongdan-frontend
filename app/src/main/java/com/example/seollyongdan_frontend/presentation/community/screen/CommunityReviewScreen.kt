@@ -42,7 +42,7 @@ fun CommunityReviewRoute(
 ) {
     CommunityReviewScreen(
         onBackClick = { navigator.navigateBack() },
-        onReviewClick = { navigator.navigateToCommunity() },
+        onReviewClick = { navigator.navigateBack() },
         district = district
     )
 

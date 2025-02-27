@@ -77,7 +77,12 @@ fun CommunityPostItem(
             Spacer(modifier = Modifier.height(25.dp))
 
             Row {
-                Text("${data.postTime}시간 전", style = b3Regular)
+                if (data.postTime != -1){
+                    Text("${data.postTime}시간 전", style = b3Regular)
+
+                }else{
+                    Text("방금 전", style = b3Regular)
+                }
 
                 Spacer(modifier = Modifier.width(10.dp))
 

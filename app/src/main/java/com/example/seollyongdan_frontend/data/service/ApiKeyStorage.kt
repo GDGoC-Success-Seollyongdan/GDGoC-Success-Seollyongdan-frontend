@@ -34,6 +34,9 @@ object ApiKeyStorage {
     const val CONGESTION = "congestion"
     const val POSTS = "posts"
     const val INFO = "info"
+    const val DISTRICT = "district"
+    const val COMMENTS = "comments"
+    const val SEARCH = "search"
 
 }
 

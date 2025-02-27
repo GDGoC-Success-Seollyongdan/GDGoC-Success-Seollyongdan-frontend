@@ -21,6 +21,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -45,7 +46,7 @@ fun CommunitySearchRoute(
     district: String
 ) {
     val systemUiController = rememberSystemUiController()
-    val searchViewModel: CommunitySearchViewModel = hiltViewModel()
+    val communityPostViewModel : CommunityPostViewModel = hiltViewModel()
 
     SideEffect {
         systemUiController.setStatusBarColor(
@@ -59,7 +60,7 @@ fun CommunitySearchRoute(
             navigator.navigateToCommunityDetail(id = id, district = district)
         },
         district = district,
-        searchViewModel = searchViewModel
+        communityPostViewModel = communityPostViewModel
     )
 }
 
@@ -69,12 +70,14 @@ fun CommunitySearchScreen(
     onBackClick: () -> Unit,
     onDetailClick: (Int, String) -> Unit,
     district: String,
-    searchViewModel: CommunitySearchViewModel
+    communityPostViewModel: CommunityPostViewModel
 ) {
 
     var content by remember { mutableStateOf("") }
     var isSearch by remember { mutableStateOf(false) }
     var isToggleChecked by remember { mutableStateOf(false) }
+
+    val searchResult by communityPostViewModel.searchPostList.observeAsState(emptyList())
 
 
     Scaffold(
@@ -114,13 +117,13 @@ fun CommunitySearchScreen(
                 onValueChange = { content = it },
                 onSearchClick = {
                     isSearch = true
-                    searchViewModel.communitySearch(content)
+                    communityPostViewModel.getPostSearch(district, content)
                 },
             )
 
             Spacer(modifier = Modifier.height(10.dp))
 
-            val searchResult by searchViewModel.searchResult
+
 
             if (searchResult.isEmpty() && isSearch) {
                 Spacer(modifier = Modifier.height(70.dp))

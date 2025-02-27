@@ -14,6 +14,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -38,9 +39,12 @@ fun CommunityPopularScreen(
 ) {
     var isToggleChecked by remember { mutableStateOf(false) }
 
+    LaunchedEffect(selectedRegion){
+        communityPostViewModel.getCommunityPosts(selectedRegion)
+    }
+
     // LiveData를 State로 변환
     val communityPosts by communityPostViewModel.communityPostList.observeAsState(emptyList())
-
 
 
     LazyColumn (
@@ -76,6 +80,7 @@ fun CommunityPopularScreen(
         items(
             communityPosts
                 .filter { it.postDistrict == selectedRegion }
+                .filter { it.like >= 10}
                 .filter { !isToggleChecked || (it.isResident && it.userDistrict == selectedRegion) } // 토글이 켜져 있으면 거주자만 필터링
         ) { item ->
             CommunityPostItem(data = item, onClick = { onDetailClick(item.id) }, selectedRegion)

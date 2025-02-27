@@ -14,6 +14,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -37,6 +39,10 @@ fun CommunityLatestScreen(
     selectedRegion : String
 ) {
     var isToggleChecked by remember { mutableStateOf(false) }
+
+    LaunchedEffect(selectedRegion){
+        communityPostViewModel.getCommunityPosts(selectedRegion)
+    }
 
     // LiveData를 State로 변환
     val communityPosts by communityPostViewModel.communityPostList.observeAsState(emptyList())

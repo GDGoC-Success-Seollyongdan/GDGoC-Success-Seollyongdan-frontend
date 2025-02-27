@@ -41,12 +41,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.seollyongdan_frontend.R
 import com.example.seollyongdan_frontend.data.dto.response.ResponseUserDto
 import com.example.seollyongdan_frontend.presentation.auth.screen.RegionSearchBottomSheet
 import com.example.seollyongdan_frontend.presentation.auth.screen.RegionViewModel
 import com.example.seollyongdan_frontend.presentation.community.navigation.CommunityNavigator
+import com.example.seollyongdan_frontend.presentation.main.screen.MainViewModel
 import com.example.seollyongdan_frontend.ui.component.CommunityFloatingButton
 import com.example.seollyongdan_frontend.ui.theme.Gray50
 import com.example.seollyongdan_frontend.ui.theme.Gray900
@@ -63,8 +65,8 @@ fun CommunityRoute(
 ) {
     val systemUiController = rememberSystemUiController()
     val communityPostViewModel: CommunityPostViewModel = hiltViewModel()
+    val mainViewModel : MainViewModel = hiltViewModel()
     val regionViewModel: RegionViewModel = hiltViewModel()
-    val district : String = "용산구 청파동1가" //사용자 동네 백엔드에서 받아오기
 
     SideEffect {
         systemUiController.setStatusBarColor(
@@ -78,13 +80,13 @@ fun CommunityRoute(
         onBackClick = { navigator.navigateBack() },
         onDetailClick = { id, selectedRegion ->
             navigator.navigateToCommunityDetail(id= id, district= selectedRegion)},
-        onWriteClick = { selectedRegion ->
-            navigator.navigateToCommunityWrite(district=selectedRegion)},
-        onReviewClick = { selectedRegion ->
+        onWriteClick = { selectedRegion, nickname ->
+            navigator.navigateToCommunityWrite(district=selectedRegion, nickname = nickname)},
+        onReviewClick = { selectedRegion,  ->
             navigator.navigateToCommunityReview(district = selectedRegion)},
         communityPostViewModel = communityPostViewModel,
         regionViewModel = regionViewModel,
-        district = district
+        mainViewModel = mainViewModel,
     )
 }
 
@@ -94,12 +96,19 @@ fun CommunityScreen(
     onSearchClick: (String) -> Unit,
     onBackClick: () -> Unit,
     onDetailClick: (Int, String) -> Unit,
-    onWriteClick: (String) -> Unit,
+    onWriteClick: (String, String) -> Unit,
     onReviewClick: (String) -> Unit,
     communityPostViewModel: CommunityPostViewModel,
     regionViewModel: RegionViewModel,
-    district: String
+    mainViewModel: MainViewModel,
 ) {
+    val userDto by mainViewModel.userDto.collectAsStateWithLifecycle()
+
+    var district by remember { mutableStateOf(userDto?.district ?: "용산구 후암동") }
+
+    var nickname by remember { mutableStateOf(userDto?.nickname ?: "알 수 없음") }
+
+
     val bottomSheetState = rememberModalBottomSheetState()
     var selectedRegion by remember { mutableStateOf(district) }
     var isBottomSheetVisible by remember { mutableStateOf(false) }
@@ -108,6 +117,12 @@ fun CommunityScreen(
     val tabs = listOf("최신글", "인기글")
     val pagerState = rememberPagerState { tabs.size }
     val coroutineScope = rememberCoroutineScope()
+
+    LaunchedEffect(userDto) {
+        district = userDto?.district ?: "용산구 후암동" // district 상태 값 변경
+        nickname = userDto?.nickname ?: "알 수 없음"
+    }
+
 
     val formattedDistricts = remember(regions) {
         regions.filter { it.city == "서울특별시" } // city가 "서울특별시"인 데이터만 필터링
@@ -176,7 +191,7 @@ fun CommunityScreen(
 
 
             floatingActionButton = {
-                CommunityFloatingButton(onWriteClick = {onWriteClick(selectedRegion)}, onReviewClick = {onReviewClick(selectedRegion)})
+                CommunityFloatingButton(onWriteClick = {onWriteClick(selectedRegion, nickname)}, onReviewClick = {onReviewClick(selectedRegion)})
             },
 
             content = { paddingValues ->
@@ -288,10 +303,10 @@ fun CommunityScreenPreview() {
         onSearchClick = {},
         onBackClick = {},
         onDetailClick = {a,b -> },
-        onWriteClick = {},
+        onWriteClick = {a,b ->},
         onReviewClick = {},
         communityPostViewModel = viewModel(),
         regionViewModel = viewModel(),
-        district = "성북구"
+        mainViewModel = viewModel()
     )
 }
