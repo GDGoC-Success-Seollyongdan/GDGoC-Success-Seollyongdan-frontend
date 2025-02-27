@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.seollyongdan_frontend.presentation.home.screen.LifeViewModel
 import com.example.seollyongdan_frontend.ui.theme.Gray100
 import com.example.seollyongdan_frontend.ui.theme.Gray200
 import com.example.seollyongdan_frontend.ui.theme.Gray300
@@ -29,15 +30,16 @@ import com.example.seollyongdan_frontend.ui.theme.b4Semi
 
 @Composable
 fun LifeTable(
-    data: List<String>
+    data: List<String>,
+    lifeViewModel: LifeViewModel
 ) {
     //FIXME 백에서 받아 오기
     val tableData = listOf(
-        listOf("카테고리", "비율(%)"), // 헤더
-        listOf("식료품", data[0]),
-        listOf("음식점", data[1]),
-        listOf("의류 및 악세서리", data[2]),
-        listOf("학원", data[3])
+        listOf("카테고리", "개수"), // 헤더
+        listOf(lifeViewModel.top1Commercial ?: "", data[0]),
+        listOf(lifeViewModel.top2Commercial ?: "", data[1]),
+        listOf(lifeViewModel.top3Commercial ?: "", data[2]),
+        listOf(lifeViewModel.top4Commercial ?: "", data[3])
     )
 
     Column(
@@ -84,9 +86,3 @@ fun LifeTable(
 }
 
 
-@Preview
-@Composable
-fun LifeTablePreview(){
-    val data = listOf("50","30","15", "4")
-    LifeTable(data)
-}
