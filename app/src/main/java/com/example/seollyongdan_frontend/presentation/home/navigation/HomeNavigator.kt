@@ -23,4 +23,12 @@ class HomeNavigator(
     fun navigateToSafetyVisualization() {
         navController.navigate("safetyVisualization")
     }
+
+    fun navigateToTrafficVisualizationTemp() {
+        navController.navigate("trafficVisualizationTemp")
+    }
+
+    fun navigateToSafetyVisualizationTemp() {
+        navController.navigate("safetyVisualizationTemp")
+    }
 }

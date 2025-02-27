@@ -4,7 +4,9 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.example.seollyongdan_frontend.presentation.home.screen.HomeRoute
 import com.example.seollyongdan_frontend.presentation.home.screen.SafetyVisualizationRoute
+import com.example.seollyongdan_frontend.presentation.home.screen.SafetyVisualizationTempRoute
 import com.example.seollyongdan_frontend.presentation.home.screen.TrafficVisualizationRoute
+import com.example.seollyongdan_frontend.presentation.home.screen.TrafficVisualizationTempRoute
 
 
 fun NavGraphBuilder.homeNavGraph(
@@ -20,5 +22,13 @@ fun NavGraphBuilder.homeNavGraph(
 
     composable(route = "safetyVisualization"){
         SafetyVisualizationRoute(navigator = navigator)
+    }
+
+    composable(route = "trafficVisualizationTemp"){
+        TrafficVisualizationTempRoute(navigator = navigator)
+    }
+
+    composable(route = "safetyVisualizationTemp"){
+        SafetyVisualizationTempRoute(navigator = navigator)
     }
 }

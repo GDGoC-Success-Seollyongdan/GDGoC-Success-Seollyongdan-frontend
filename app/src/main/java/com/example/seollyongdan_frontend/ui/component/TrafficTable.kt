@@ -34,14 +34,15 @@ fun TrafficTable(
     val tableData = listOf(
         listOf("시설명", "비율"), // 헤더
         listOf("버스", data[0]),
-        listOf("지하철", data[1])
+        listOf("지하철", data[1]),
+        listOf("택시", data[2])
     )
 
     Column(
         modifier = Modifier
             .width(310.dp)
             .clip(RoundedCornerShape(8.dp))
-            .height(108.dp)
+            .height(148.dp)
             .border(1.dp, Gray200, RoundedCornerShape(8.dp))
     ) {
         tableData.forEachIndexed { rowIndex, row ->
@@ -83,6 +84,6 @@ fun TrafficTable(
 @Preview
 @Composable
 fun TrafficTablePreview(){
-    val data = listOf("100","200")
+    val data = listOf("100","200","300")
     TrafficTable(data)
 }
