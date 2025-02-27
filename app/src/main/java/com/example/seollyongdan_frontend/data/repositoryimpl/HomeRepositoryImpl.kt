@@ -4,7 +4,9 @@ import com.example.seollyongdan_frontend.data.datasource.HomeDataSource
 import com.example.seollyongdan_frontend.data.dto.response.CrimeFreqDto
 import com.example.seollyongdan_frontend.data.dto.response.ResponseHomeCrimeFreqDto
 import com.example.seollyongdan_frontend.data.dto.response.ResponseHomeSafetyDto
+import com.example.seollyongdan_frontend.data.dto.response.ResponseRealEstateDto
 import com.example.seollyongdan_frontend.data.dto.response.ResponseHomeTrafficDto
+import com.example.seollyongdan_frontend.data.dto.response.ResponseLifeDto
 import com.example.seollyongdan_frontend.domain.repository.HomeRepository
 import javax.inject.Inject
 
@@ -67,4 +69,41 @@ class HomeRepositoryImpl @Inject constructor(
         }
     }
 
+
+    override suspend fun getHomeRealEstate(townId: Int): Result<ResponseRealEstateDto> {
+        return runCatching {
+            val response = homeDataSource.getHomeRealEstate(townId)
+            val result = response.result ?: throw Exception("Result is null")
+
+            ResponseRealEstateDto(
+                townId = result.townId,
+                monthlyRent = result.monthlyRent,
+                yearlyRent = result.yearlyRent,
+                saleData = result.saleData,
+                priceDifference1y = result.priceDifference1y
+            )
+        }
+    }
+
+    override suspend fun getHomeLife(townId: Int): Result<ResponseLifeDto> {
+        return runCatching {
+            val response = homeDataSource.getHomeLife(townId)
+            val result = response.result ?: throw Exception("Result is null")
+
+            ResponseLifeDto(
+                townId = result.townId,
+                top1Commercial = result.top1Commercial,
+                top2Commercial = result.top2Commercial,
+                top3Commercial = result.top3Commercial,
+                top4Commercial = result.top4Commercial,
+                top5Commercial = result.top5Commercial,
+                top1Count = result.top1Count,
+                top2Count = result.top2Count,
+                top3Count = result.top3Count,
+                top4Count = result.top4Count,
+                top5Count = result.top5Count,
+                isCulturalArea = result.isCulturalArea
+            )
+        }
+    }
 }

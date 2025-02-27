@@ -15,6 +15,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -41,13 +42,25 @@ import com.example.seollyongdan_frontend.ui.theme.h7Semi
 @Composable
 fun BottomSheetLifeScreen(
     homeViewModel: HomeViewModel,
+    lifeViewModel: LifeViewModel,
     districtName : String
 ) {
     val onBackClick = { homeViewModel.setBottomSheetScreen(BottomSheetScreen.HOME) }
-    val serviceCategory = listOf("강남구", "강동구", "강북구", "강서구", "관악구")
-    val serviceValues = listOf(30f, 22.5f, 20f, 17.5f, 12.5f)
-    val LifeTrue = false
-    val LifeTableData = listOf("50", "30", "15", "4")
+    val serviceCategory = listOf("강남구", "강북구", "은평구", "동작구", "서대문구")
+    val serviceValues = listOf(22.2025f, 20.2503f, 19.8285f, 19.0468f, 18.6719f)
+    val LifeTrue = lifeViewModel.isCulturalArea
+    val LifeTableData = listOf(
+        (lifeViewModel.top1Count ?: 0.0f).toString(),
+        (lifeViewModel.top2Count ?: 0.0f).toString(),
+        (lifeViewModel.top3Count ?: 0.0f).toString(),
+        (lifeViewModel.top4Count ?: 0.0f).toString()
+    )
+
+    val townId = townNameToId(districtName)
+
+    LaunchedEffect(districtName) { 
+        lifeViewModel.getHomeLife(townId)
+    }
 
     Column(
         modifier = Modifier
@@ -75,7 +88,7 @@ fun BottomSheetLifeScreen(
                         append(districtName)
                     }
                     withStyle(style = SpanStyle(Color.Black)) {
-                        append(" 부동산 현황")
+                        append(" 생활/편의시설")
                     }
                 },
                 style = h5Bold
@@ -109,7 +122,7 @@ fun BottomSheetLifeScreen(
                     withStyle(style = SpanStyle(color = Success900)) {
                         append("상위 5위")
                     }
-                    if (LifeTrue) {
+                    if (LifeTrue ?: false) {
                         append("에 포함돼요")
                     } else {
                         append("에 포함되지 않아요")
@@ -129,18 +142,8 @@ fun BottomSheetLifeScreen(
             Column {
                 Text("주요 상권 TOP4", style = h7Semi)
                 Spacer(modifier = Modifier.height(20.dp))
-                LifeTable(LifeTableData)
+                LifeTable(LifeTableData, lifeViewModel)
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun BottomSheetLifeScreenPreview() {
-    val dummyViewModel = HomeViewModel()
-    BottomSheetLifeScreen(
-        homeViewModel = dummyViewModel,
-        districtName = "성북구"
-    )
 }

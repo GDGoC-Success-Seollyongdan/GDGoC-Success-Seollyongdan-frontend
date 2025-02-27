@@ -55,13 +55,15 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun HomeRoute(
-    navigator: HomeNavigator,
+    navigator: HomeNavigator
 ) {
     val systemUiController = rememberSystemUiController()
     val homeViewModel: HomeViewModel = hiltViewModel()
     val safetyViewModel: SafetyViewModel = hiltViewModel()
     val trafficViewModel : TrafficViewModel = hiltViewModel()
     val mainViewModel : MainViewModel = hiltViewModel()
+    val realEstateViewModel: RealEstateViewModel = hiltViewModel()
+    val lifeViewModel: LifeViewModel = hiltViewModel()
 
 
     SideEffect {
@@ -74,6 +76,8 @@ fun HomeRoute(
         homeViewModel = homeViewModel,
         safetyViewModel = safetyViewModel,
         trafficViewModel = trafficViewModel,
+        realEstateViewModel = realEstateViewModel,
+        lifeViewModel = lifeViewModel,
         onSearchClick = { navigator.navigateToSearch() },
         onTrafficVisualizationClick = { navigator.navigateToTrafficVisualizationTemp() },
         onSafetyVisualizationClick = { navigator.navigateToSafetyVisualizationTemp() },
@@ -87,6 +91,8 @@ fun HomeScreen(
     homeViewModel: HomeViewModel,
     safetyViewModel: SafetyViewModel,
     trafficViewModel: TrafficViewModel,
+    realEstateViewModel: RealEstateViewModel,
+    lifeViewModel: LifeViewModel,
     onSearchClick: () -> Unit,
     onTrafficVisualizationClick: () -> Unit,
     onSafetyVisualizationClick: () -> Unit,
@@ -202,6 +208,8 @@ fun HomeScreen(
                         homeViewModel,
                         safetyViewModel,
                         trafficViewModel,
+                        realEstateViewModel,
+                        lifeViewModel,
                         onSearchClick,
                         onTrafficVisualizationClick,
                         onSafetyVisualizationClick,

@@ -38,5 +38,6 @@ object ApiKeyStorage {
     const val COMMENTS = "comments"
     const val SEARCH = "search"
 
+    const val PROPERTIES = "properties"
 }
 
