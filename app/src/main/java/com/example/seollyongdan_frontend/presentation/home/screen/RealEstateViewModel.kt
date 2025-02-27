@@ -14,17 +14,17 @@ import javax.inject.Inject
 class RealEstateViewModel @Inject constructor(
     private val repository: HomeRepository
 ): ViewModel() {
-    private val _monthlyRent = MutableStateFlow<Float?>(null)
-    val monthlyRent: StateFlow<Float?> = _monthlyRent
+    private var _monthlyRent: Float? = 0f
+    val monthlyRent: Float? get() = _monthlyRent
 
-    private val _yearlyRent = MutableStateFlow<Float?>(null)
-    val yearlyRent: StateFlow<Float?> = _yearlyRent
+    private var _yearlyRent: Float? = 0f
+    val yearlyRent: Float? get() = _yearlyRent
 
-    private val _saleData = MutableStateFlow<List<Float>?>(null)
-    val saleData: StateFlow<List<Float>?> = _saleData
+    private var _saleData: List<Float>? = null
+    val saleData: List<Float>? get() = _saleData
 
-    private val _priceDifference1y = MutableStateFlow<Float?>(null)
-    val priceDifference1y: StateFlow<Float?> = _priceDifference1y
+    private var _priceDifference1y: Float? = 0f
+    val priceDifference1y: Float? get() = _priceDifference1y
 
 
     fun getHomeRealEstate(townId: Int) {
@@ -32,15 +32,15 @@ class RealEstateViewModel @Inject constructor(
             val result = repository.getHomeRealEstate(townId)
             result.onSuccess { response ->
                 Log.d("RealEstateViewModel", "API call successful: $response")
-                _monthlyRent.value = response.monthlyRent?.toFloat() ?: 0.0f
-                _yearlyRent.value = response.yearlyRent?.toFloat() ?: 0.0f
-                _saleData.value = response.saleData?.map { it.toFloat() } ?: emptyList()
-                _priceDifference1y.value = response.priceDifference1y?.toFloat() ?: 0.0f
+                _monthlyRent = response.monthlyRent?.toFloat()
+                _yearlyRent = response.yearlyRent?.toFloat()
+                _saleData = response.saleData?.map { it.toFloat() }
+                _priceDifference1y = response.priceDifference1y?.toFloat()
 
-                Log.d("RealEstateViewModel", "monthlyRent updated: ${_monthlyRent.value}") // Add these Logs
-                Log.d("RealEstateViewModel", "yearlyRent updated: ${_yearlyRent.value}")
-                Log.d("RealEstateViewModel", "saleData updated: ${_saleData.value}")
-                Log.d("RealEstateViewModel", "priceDifference1y updated: ${_priceDifference1y.value}")
+                Log.d("RealEstateViewModel", "monthlyRent updated: ${_monthlyRent}") // Add these Logs
+                Log.d("RealEstateViewModel", "yearlyRent updated: ${_yearlyRent}")
+                Log.d("RealEstateViewModel", "saleData updated: ${_saleData}")
+                Log.d("RealEstateViewModel", "priceDifference1y updated: ${_priceDifference1y}")
             }.onFailure {
                 Log.e("RealEstateViewModel", "API call failed", it)
             }

@@ -5,8 +5,10 @@ import com.example.seollyongdan_frontend.data.dto.response.ResponseHomeCongestio
 import com.example.seollyongdan_frontend.data.dto.response.ResponseHomeCrimeFreqDto
 import com.example.seollyongdan_frontend.data.dto.response.ResponseHomeSafetyDto
 import com.example.seollyongdan_frontend.data.dto.response.ResponseHomeTrafficDto
+import com.example.seollyongdan_frontend.data.dto.response.ResponseLifeDto
 import com.example.seollyongdan_frontend.data.dto.response.ResponseRealEstateDto
 import com.example.seollyongdan_frontend.data.service.ApiKeyStorage.API
+import com.example.seollyongdan_frontend.data.service.ApiKeyStorage.COMMERCIAL
 import com.example.seollyongdan_frontend.data.service.ApiKeyStorage.CONGESTION
 import com.example.seollyongdan_frontend.data.service.ApiKeyStorage.CRIMEFREQ
 import com.example.seollyongdan_frontend.data.service.ApiKeyStorage.PROPERTIES
@@ -38,4 +40,9 @@ interface HomeApiService {
     suspend fun getTownRealEstate(
         @Path("town-id") townId : Int
     ) : SeollyongdanBaseResponse<ResponseRealEstateDto>
+
+    @GET("/$API/$TOWN/{town-id}/$COMMERCIAL")
+    suspend fun getHomeLife(
+        @Path("town-id") townId: Int
+    ): SeollyongdanBaseResponse<ResponseLifeDto>
 }

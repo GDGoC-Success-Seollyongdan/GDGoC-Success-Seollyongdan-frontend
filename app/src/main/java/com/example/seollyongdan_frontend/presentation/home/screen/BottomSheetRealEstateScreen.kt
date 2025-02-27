@@ -49,10 +49,10 @@ fun BottomSheetRealEstateScreen(
 ) {
     val onBackClick = { homeViewModel.setBottomSheetScreen(BottomSheetScreen.HOME) }
     val priceMonth = listOf("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12")
-    val monthlyRent = realEstateViewModel.monthlyRent.collectAsState().value
-    val yearlyRent = realEstateViewModel.yearlyRent.collectAsState().value
-    val priceValues = realEstateViewModel.saleData.collectAsState().value
-    val priceDifference1y = realEstateViewModel.priceDifference1y.collectAsState().value
+    val monthlyRent = realEstateViewModel.monthlyRent
+    val yearlyRent = realEstateViewModel.yearlyRent
+    val priceValues = realEstateViewModel.saleData
+    val priceDifference1y = realEstateViewModel.priceDifference1y
 
     val defaultValues = listOf(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f)
     val lastSaleData = priceValues?.lastOrNull() ?: 0.0f
