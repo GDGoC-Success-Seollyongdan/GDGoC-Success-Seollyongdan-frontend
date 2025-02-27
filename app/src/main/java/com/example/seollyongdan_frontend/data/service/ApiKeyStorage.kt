@@ -29,7 +29,9 @@ object ApiKeyStorage {
     const val CHECKNICKNAME = "check-nickname"
     const val TOWN = "town"
     const val SAFETY = "safety"
+    const val TRANSPORT = "transport"
+    const val CRIMEFREQ = "crime-freq"
+    const val CONGESTION = "congestion"
     const val PROPERTIES = "properties"
-
 }
 

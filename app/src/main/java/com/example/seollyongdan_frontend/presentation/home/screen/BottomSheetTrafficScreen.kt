@@ -18,6 +18,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -42,18 +43,25 @@ import com.example.seollyongdan_frontend.ui.theme.h7Semi
 @Composable
 fun BottomSheetTrafficScreen(
     homeViewModel: HomeViewModel,
+    trafficViewModel: TrafficViewModel,
     districtName: String,
     onTrafficVisualizationClick : () -> Unit
 ) {
+    val townId = townNameToId(districtName)
+
+    LaunchedEffect(districtName){
+        trafficViewModel.getHomeTraffic(townId)
+    }
+
     val onBackClick = { homeViewModel.setBottomSheetScreen(BottomSheetScreen.HOME) }
 
-    val trafficTrue = true //혼잡도 상위 5위 여부 - 백엔드에서 받아오는 형태로 수정 필dt
+    val trafficTrue = trafficViewModel.isHigh //혼잡도 상위 5위 여부
 
     val trafficDistricts = listOf("강남구", "중구", "성북구", "송파구", "동작구", "기타")
     val trafficValues = listOf(30f, 20f, 15f, 10f, 15f, 10f)
 
-    val trafficTableData = listOf("60", "40") //해당 구 대중교통 이용 비율 - 백엔드에서 받아오는 형태로 수정 필요
-    val trafficMajor = 1 //1이면 버스, 2면 지하철을 더 사용 - 백엔드에서 받아오는 형태로 수정 필요
+    val trafficTableData = listOf(trafficViewModel.busRatio.toString(), trafficViewModel.subwayRatio.toString(), trafficViewModel.taxiRatio.toString()) //해당 구 대중교통 이용 비율 - 백엔드에서 받아오는 형태로 수정 필요
+    val trafficMajor = trafficViewModel.mostUsedTransport
 
 
 
@@ -94,7 +102,7 @@ fun BottomSheetTrafficScreen(
 
         Box(
             modifier = Modifier
-                .height(235.dp)
+                .height(280.dp)
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(30.dp))
                 .background(Success500)
@@ -116,12 +124,7 @@ fun BottomSheetTrafficScreen(
                 Text(text = buildAnnotatedString {
                     append("$districtName 주민들은 ")
                     withStyle(style = SpanStyle(color = Success800)) {
-                        if (trafficMajor==1){
-                            append("버스를 더 많이 이용해요")
-                        }
-                        else {
-                            append("지하철을 더 많이 이용해요")
-                        }
+                        append("{$trafficMajor}를 가장 많이 이용해요")
                     }
                 }, style = h7Semi)
 
@@ -151,7 +154,6 @@ fun BottomSheetTrafficScreen(
                         PieGraph(data = trafficValues, labels = trafficDistricts)
                     }
 
-                    //Spacer(modifier = Modifier.height(10.dp))
 
                     Text(text = buildAnnotatedString {
                         append("서울시 기준 혼잡도 ")
@@ -182,6 +184,7 @@ fun BottomSheetTrafficScreen(
 fun TrafficScreenPreview() {
     BottomSheetTrafficScreen(
         homeViewModel = viewModel(),
+        trafficViewModel = viewModel(),
         districtName = "성북구",
         onTrafficVisualizationClick = {}
     )
