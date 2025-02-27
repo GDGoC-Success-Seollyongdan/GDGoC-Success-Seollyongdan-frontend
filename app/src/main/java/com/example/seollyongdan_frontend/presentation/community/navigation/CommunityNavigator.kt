@@ -17,7 +17,7 @@ class CommunityNavigator(
         navController.navigate("communitySearch?district=${district}")
     }
 
-    fun navigateToCommunityReveiw(district : String){
+    fun navigateToCommunityReview(district : String){
         navController.navigate("communityReview?district=${district}")
     }
 
@@ -25,7 +25,7 @@ class CommunityNavigator(
         navController.navigate("communityWrite?district=${district}")
     }
 
-    fun navigateToCommunityDetail(id : Long, district: String){
+    fun navigateToCommunityDetail(id : Int, district: String){
         navController.navigate("communityDetail?id=${id}?district=${district}")
     }
 }

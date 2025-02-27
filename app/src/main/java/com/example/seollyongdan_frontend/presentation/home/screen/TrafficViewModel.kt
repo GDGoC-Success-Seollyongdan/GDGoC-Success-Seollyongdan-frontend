@@ -4,41 +4,42 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.seollyongdan_frontend.domain.repository.HomeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-
 @HiltViewModel
 class TrafficViewModel @Inject constructor(
     private val repository: HomeRepository
 ) : ViewModel() {
 
-    private var _busRatio: Float = 0f
-    val busRatio : Float = _busRatio
+    private val _busRatio = MutableStateFlow(0f)
+    val busRatio: StateFlow<Float> = _busRatio.asStateFlow()
 
-    private var _subwayRatio: Float = 0f
-    val subwayRatio : Float = _subwayRatio
+    private val _subwayRatio = MutableStateFlow(0f)
+    val subwayRatio: StateFlow<Float> = _subwayRatio.asStateFlow()
 
-    private var _taxiRatio: Float = 0f
-    val taxiRatio : Float = _taxiRatio
+    private val _taxiRatio = MutableStateFlow(0f)
+    val taxiRatio: StateFlow<Float> = _taxiRatio.asStateFlow()
 
-    private var _mostUsedTransport : String = ""
-    val mostUsedTransport : String = _mostUsedTransport
+    private val _mostUsedTransport = MutableStateFlow("")
+    val mostUsedTransport: StateFlow<String> = _mostUsedTransport.asStateFlow()
 
-    private var _isHigh : Boolean = false
-    val isHigh : Boolean = _isHigh
-
+    private val _isHigh = MutableStateFlow(false)
+    val isHigh: StateFlow<Boolean> = _isHigh.asStateFlow()
 
     fun getHomeTraffic(townId: Int) {
         viewModelScope.launch {
             val result = repository.getHomeTraffic(townId)
             result.onSuccess { response ->
-                _busRatio = response.busRatio
-                _subwayRatio = response.subwayRatio
-                _taxiRatio = response.taxiRatio
-                _mostUsedTransport = response.mostUsedTransport
-                _isHigh = response.isHigh
+                _busRatio.value = response.busRatio
+                _subwayRatio.value = response.subwayRatio
+                _taxiRatio.value = response.taxiRatio
+                _mostUsedTransport.value = response.mostUsedTransport
+                _isHigh.value = response.isHigh
             }.onFailure {
-
+                // 오류 처리 로직
             }
         }
     }

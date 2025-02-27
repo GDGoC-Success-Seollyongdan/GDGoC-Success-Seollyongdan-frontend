@@ -47,7 +47,7 @@ import com.example.seollyongdan_frontend.ui.theme.b3Bold
 @Composable
 fun CommunityDetailRoute(
     navigator: CommunityNavigator,
-    id: Long,
+    id: Int,
     district: String
 ) {
     val communityDetailViewModel: CommunityDetailViewModel = hiltViewModel()
@@ -68,7 +68,7 @@ fun CommunityDetailRoute(
 fun CommunityDetailScreen(
     onBackClick: () -> Unit,
     communityDetailViewModel: CommunityDetailViewModel,
-    id: Long,
+    id: Int,
     communityDistrict: String
 ) {
     var content by remember { mutableStateOf("") }

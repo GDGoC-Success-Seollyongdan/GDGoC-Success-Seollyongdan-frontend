@@ -11,7 +11,6 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
@@ -24,10 +23,11 @@ import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.seollyongdan_frontend.R
-import com.example.seollyongdan_frontend.ui.component.BottomNavigationItem
 import com.example.seollyongdan_frontend.presentation.community.navigation.CommunityNavigator
 import com.example.seollyongdan_frontend.presentation.community.screen.CommunityRoute
 import com.example.seollyongdan_frontend.presentation.guide.navigation.GuideNavigator
@@ -39,21 +39,27 @@ import com.example.seollyongdan_frontend.presentation.mypage.navigation.MypageNa
 import com.example.seollyongdan_frontend.presentation.mypage.screen.MypageRoute
 import com.example.seollyongdan_frontend.presentation.search.navigation.SearchNavigator
 import com.example.seollyongdan_frontend.presentation.search.screen.SearchRoute
+import com.example.seollyongdan_frontend.ui.component.BottomNavigationItem
 import com.example.seollyongdan_frontend.ui.theme.SeollyongdanfrontendTheme
 
 @Composable
 fun MainRoute(
     navigator: MainNavigator,
 ) {
+    val mainViewModel : MainViewModel = hiltViewModel()
+
     MainScreen(
         navController = navigator.navController,
+        mainViewModel = mainViewModel
     )
 }
 
 @Composable
 fun MainScreen(
     navController: NavHostController,
+    mainViewModel: MainViewModel
 ) {
+
     var selectedItem by rememberSaveable { mutableIntStateOf(0) }
     val items = listOf(
         BottomNavigationItem(
@@ -149,7 +155,8 @@ private object NoRippleTheme : RippleTheme {
 fun MainScreenPreview() {
     SeollyongdanfrontendTheme  {
         MainScreen(
-            navController = rememberNavController()
+            navController = rememberNavController(),
+            mainViewModel = viewModel()
         )
     }
 }

@@ -1,82 +1,51 @@
 package com.example.seollyongdan_frontend.presentation.community.screen
 
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.seollyongdan_frontend.data.dto.response.ResponseCommunityPostDto
+import com.example.seollyongdan_frontend.domain.repository.CommunityRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
-
 @HiltViewModel
-class CommunityPostViewModel @Inject constructor() : ViewModel(){
-    val communityPostList = listOf(
+class CommunityPostViewModel @Inject constructor(
+    private val communityRepository: CommunityRepository
+) : ViewModel() {
 
-        CommunityPostEntity(
-            id = 2,
-            userName = "김눈송",
-            userDistrict = "용산구 청파동1가",
-            postDistrict = "용산구 청파동1가",
-            isResident = true,
-            title = "공덕동 맛집 추천드려요",
-            content = "OOO 고깃집 맛있어요!",
-            postTime = 2,
-            like = 3,
-            view = 38,
-            comment =  3
-        ),
+    private val _communityPostList = MutableLiveData<List<CommunityPostEntity>>()
+    val communityPostList: LiveData<List<CommunityPostEntity>> = _communityPostList
 
-        CommunityPostEntity(
-            id = 3,
-            userName = "이눈송",
-            userDistrict = "용산구 청파동2가",
-            postDistrict = "용산구 청파동1가",
-            isResident = false,
-            title = "공덕동 맛집 추천드려요",
-            content = "OOO 학식 맛있어요!",
-            postTime = 2,
-            like = 10,
-            view = 38,
-            comment = 4
-        ),
+    init {
+        fetchCommunityPosts()
+    }
 
-        CommunityPostEntity(
-            id = 4,
-            userName = "박눈송",
-            userDistrict = "용산구",
-            postDistrict = "용산구 청파동1가",
-            isResident = true,
-            title = "공덕동 맛집 추천드려요",
-            content = "OOO 한식집 맛있어요!",
-            postTime = 3,
-            like = 15,
-            view = 78,
-            comment = 5
-        ),
+    private fun fetchCommunityPosts() {
+        viewModelScope.launch {
+            val result = communityRepository.getAllPosts()
 
-        CommunityPostEntity(
-            id = 5,
-            userName = "최눈송",
-            userDistrict = "용산구 청파동2가",
-            postDistrict = "용산구 청파동2가",
-            isResident = true,
-            title = "숙대 맛집 추천드려요",
-            content = "OOO 분식집 맛있어요!",
-            postTime = 5,
-            like = 12,
-            view = 108,
-            comment = 6
-        ),
-
-        CommunityPostEntity(
-            id = 9,
-            userName = "함눈송",
-            userDistrict = "용산구 청파동1가",
-            postDistrict = "용산구 청파동2가",
-            isResident = true,
-            title = "숙대 맛집 추천드려요",
-            content = "OOO 한식집 맛있어요!",
-            postTime = 5,
-            like = 9,
-            view = 18,
-            comment = 3
-        )
-
-    )
+            result.onSuccess { posts ->
+                val communityPosts = posts.map { post ->
+                    CommunityPostEntity(
+                        id = post.postId,
+                        userName = post.postNickname,
+                        userDistrict = post.userDistrick,
+                        postDistrict = post.postDistrict,
+                        isResident = post.isResident,
+                        title = post.title,
+                        content = post.content,
+                        postTime = post.postTime,
+                        like = post.likeCount,
+                        view = post.viewCount,
+                        comment = post.commentCount
+                    )
+                }
+                _communityPostList.postValue(communityPosts)
+            }.onFailure { exception ->
+                Log.e("CommunityPostViewModel", "Fail", exception)
+            }
+        }
+    }
 }

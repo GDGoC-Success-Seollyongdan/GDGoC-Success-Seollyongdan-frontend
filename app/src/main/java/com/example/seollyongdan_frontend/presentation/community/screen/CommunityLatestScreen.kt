@@ -15,6 +15,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -31,11 +32,15 @@ import com.example.seollyongdan_frontend.ui.theme.h5Semi
 
 @Composable
 fun CommunityLatestScreen(
-    onDetailClick: (Long) -> Unit,
+    onDetailClick: (Int) -> Unit,
     communityPostViewModel: CommunityPostViewModel,
     selectedRegion : String
 ) {
     var isToggleChecked by remember { mutableStateOf(false) }
+
+    // LiveData를 State로 변환
+    val communityPosts by communityPostViewModel.communityPostList.observeAsState(emptyList())
+
 
     LazyColumn (
         verticalArrangement = Arrangement.spacedBy(15.dp),
@@ -67,13 +72,12 @@ fun CommunityLatestScreen(
 
 
         items(
-            communityPostViewModel.communityPostList
+            communityPosts
                 .filter { it.postDistrict == selectedRegion }
                 .filter { !isToggleChecked || (it.isResident && it.userDistrict == selectedRegion) } // 토글이 켜져 있으면 거주자만 필터링
         ) { item ->
-            CommunityPostItem(data = item, onClick = {onDetailClick(item.id)}, selectedRegion)
+            CommunityPostItem(data = item, onClick = { onDetailClick(item.id) }, selectedRegion)
         }
-
 
 
     }
