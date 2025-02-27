@@ -120,7 +120,7 @@ fun PieGraph(
 @Preview
 @Composable
 fun PieGraphPreview(){
-    val pieData = listOf(30f, 20f, 15f, 10f, 15f, 10f)
-    val pieLabels = listOf("A사", "B사", "C사", "D사", "E사", "F사")
+    val pieData = listOf(30f, 20f, 15f, 10f, 15f,)
+    val pieLabels = listOf("A사", "B사", "C사", "D사", "E사", )
     PieGraph(data = pieData, labels = pieLabels)
 }

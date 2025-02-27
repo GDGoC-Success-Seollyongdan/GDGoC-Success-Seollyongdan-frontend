@@ -43,6 +43,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.seollyongdan_frontend.R
+import com.example.seollyongdan_frontend.data.dto.response.ResponseUserDto
 import com.example.seollyongdan_frontend.presentation.auth.screen.RegionSearchBottomSheet
 import com.example.seollyongdan_frontend.presentation.auth.screen.RegionViewModel
 import com.example.seollyongdan_frontend.presentation.community.navigation.CommunityNavigator
@@ -80,7 +81,7 @@ fun CommunityRoute(
         onWriteClick = { selectedRegion ->
             navigator.navigateToCommunityWrite(district=selectedRegion)},
         onReviewClick = { selectedRegion ->
-            navigator.navigateToCommunityReveiw(district = selectedRegion)},
+            navigator.navigateToCommunityReview(district = selectedRegion)},
         communityPostViewModel = communityPostViewModel,
         regionViewModel = regionViewModel,
         district = district
@@ -92,7 +93,7 @@ fun CommunityRoute(
 fun CommunityScreen(
     onSearchClick: (String) -> Unit,
     onBackClick: () -> Unit,
-    onDetailClick: (Long, String) -> Unit,
+    onDetailClick: (Int, String) -> Unit,
     onWriteClick: (String) -> Unit,
     onReviewClick: (String) -> Unit,
     communityPostViewModel: CommunityPostViewModel,

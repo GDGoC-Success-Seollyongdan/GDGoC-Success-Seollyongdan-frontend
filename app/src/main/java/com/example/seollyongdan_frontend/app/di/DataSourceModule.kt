@@ -3,11 +3,15 @@ package com.example.seollyongdan_frontend.app.di
 import com.example.seollyongdan_frontend.data.datasource.ExampleDataSource
 import com.example.seollyongdan_frontend.data.datasource.RegionDataSource
 import com.example.seollyongdan_frontend.data.datasource.AuthDataSource
+import com.example.seollyongdan_frontend.data.datasource.CommunityDataSource
 import com.example.seollyongdan_frontend.data.datasource.HomeDataSource
+import com.example.seollyongdan_frontend.data.datasource.UserDataSource
 import com.example.seollyongdan_frontend.data.datasourceimpl.ExampleDataSourceImpl
 import com.example.seollyongdan_frontend.data.datasourceimpl.RegionDataSourceImpl
 import com.example.seollyongdan_frontend.data.datasourceimpl.AuthDataSourceImpl
+import com.example.seollyongdan_frontend.data.datasourceimpl.CommunityDataSourceImpl
 import com.example.seollyongdan_frontend.data.datasourceimpl.HomeDataSourceImpl
+import com.example.seollyongdan_frontend.data.datasourceimpl.UserDataSourceImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -35,6 +39,18 @@ abstract class DataSourceModule {
     abstract fun bindHomeDataSource(
         homeDataSourceImpl: HomeDataSourceImpl
     ) : HomeDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindCommunityDataSource(
+        communityDataSourceImpl: CommunityDataSourceImpl
+    ) : CommunityDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindUserDataSource(
+        userDataSourceImpl: UserDataSourceImpl
+    ) : UserDataSource
 
     @Binds
     @Singleton

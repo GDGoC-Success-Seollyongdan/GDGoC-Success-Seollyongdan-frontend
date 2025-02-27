@@ -1,7 +1,7 @@
 package com.example.seollyongdan_frontend.presentation.community.screen
 
 data class CommunityPostEntity (
-    val id : Long,
+    val id : Int,
     val userName : String,
     val userDistrict : String,
     val postDistrict : String,

@@ -19,6 +19,8 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -56,16 +58,20 @@ fun BottomSheetSafetyScreen(
     }
 
     val crimeYears = listOf("2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023")
-    val crimeValues = safetyViewModel.crimeData //10년간 범죄율
-    val SafetyTrue = safetyViewModel.isSafe //안심시설 상위 5위 여부
+    val crimeValues by safetyViewModel.crimeData.collectAsState() //10년간 범죄율
+    val SafetyTrue by safetyViewModel.isSafe.collectAsState() //안심시설 상위 5위 여부
 
-    val safetyDistricts = listOf("강남구", "중구", "성북구", "송파구", "동작구", "기타") //데이터측에서 실제값 전달 받아야 함
-    val safetyValues = listOf(30f, 20f, 15f, 10f, 15f, 10f) //데이터측에서 실제값 전달 받아야 함
+    val safetyDistricts = listOf("종로구", "강남구", "서초구", "구로구", "중구") //데이터측에서 실제값 전달 받아야 함
+    val safetyValues = listOf(21.4f, 20.4f, 20f, 19.5f, 18.7f) //데이터측에서 실제값 전달 받아야 함
+
+    val cctvCount by safetyViewModel.cctvCount.collectAsState()
+    val policeStationsCount by safetyViewModel.policeStationsCount.collectAsState()
+    val fireStationsCount by safetyViewModel.fireStationsCount.collectAsState()
 
     val safetyTableData = listOf(
-        safetyViewModel.cctvCount ?: "알 수 없음",
-        safetyViewModel.policeStationsCount ?: "알 수 없음",
-        safetyViewModel.fireStationsCount ?: "알 수 없음"
+        cctvCount ?: "알 수 없음",
+        policeStationsCount ?: "알 수 없음",
+        fireStationsCount ?: "알 수 없음"
     ) //해당 구 안심시설 개수
 
     val defaultValues = listOf(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f)
