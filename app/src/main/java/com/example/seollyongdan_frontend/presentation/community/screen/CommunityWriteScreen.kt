@@ -22,6 +22,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,12 +32,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberAsyncImagePainter
+import com.example.sellyongdan_frontend.util.toast
 import com.example.seollyongdan_frontend.R
 import com.example.seollyongdan_frontend.presentation.community.navigation.CommunityNavigator
 import com.example.seollyongdan_frontend.ui.component.ContentTextField
@@ -50,15 +54,22 @@ import com.example.seollyongdan_frontend.ui.theme.h4Semi
 @Composable
 fun CommunityWriteRoute(
     navigator: CommunityNavigator,
-    district: String
+    district: String,
+    nickname : String
 ) {
-    val communityPostViewModel: CommunityPostViewModel = hiltViewModel()
+    val communityWriteViewModel : CommunityWriteViewModel = hiltViewModel()
+
+
 
 //지역 보내주기
     CommunityWriteScreen(
+        onPostClick = { nickname, district, title, content ->
+            communityWriteViewModel.postNewPost(nickname, district, title, content)
+                      },
         onBackClick = { navigator.navigateBack() },
-        onPostClick = { navigator.navigateToCommunity() },
-        district = district
+        district = district,
+        nickname = nickname,
+        communityWriteViewModel = communityWriteViewModel,
     )
 
 }
@@ -67,9 +78,11 @@ fun CommunityWriteRoute(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CommunityWriteScreen(
+    onPostClick: (String, String, String, String) -> Unit,
     onBackClick: () -> Unit,
-    onPostClick: () -> Unit,
-    district: String
+    district: String,
+    nickname: String,
+    communityWriteViewModel: CommunityWriteViewModel
 ) {
     var title by remember { mutableStateOf("") }
     var content by remember { mutableStateOf("") }
@@ -81,6 +94,17 @@ fun CommunityWriteScreen(
         }
     )
 
+    val context = LocalContext.current
+
+    val isSuccess by communityWriteViewModel.isPostSuccess
+
+    LaunchedEffect(isSuccess) {
+        if (isSuccess == true) {
+            onBackClick()
+        } else if (isSuccess == false) {
+            context.toast("게시글 등록에 실패했습니다.")
+        }
+    }
 
 
     Scaffold(
@@ -175,7 +199,7 @@ fun CommunityWriteScreen(
 
             PostButton(
                 value = "등록",
-                onClick = onPostClick
+                onClick = { onPostClick(nickname, district, title, content) }
             )
 
             Spacer(modifier = Modifier.height(20.dp))
@@ -193,7 +217,9 @@ fun CommunityWriteScreen(
 fun WriteScreenPreview(){
     CommunityWriteScreen(
         onBackClick = {},
-        onPostClick = {},
-        district = "용산구 청파로2가"
+        onPostClick = {a,b,c,d ->},
+        district = "용산구 청파로2가",
+        nickname = "",
+        communityWriteViewModel = viewModel()
     )
 }
