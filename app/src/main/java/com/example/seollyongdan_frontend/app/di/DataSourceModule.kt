@@ -5,12 +5,14 @@ import com.example.seollyongdan_frontend.data.datasource.RegionDataSource
 import com.example.seollyongdan_frontend.data.datasource.AuthDataSource
 import com.example.seollyongdan_frontend.data.datasource.CommunityDataSource
 import com.example.seollyongdan_frontend.data.datasource.HomeDataSource
+import com.example.seollyongdan_frontend.data.datasource.SearchDataSource
 import com.example.seollyongdan_frontend.data.datasource.UserDataSource
 import com.example.seollyongdan_frontend.data.datasourceimpl.ExampleDataSourceImpl
 import com.example.seollyongdan_frontend.data.datasourceimpl.RegionDataSourceImpl
 import com.example.seollyongdan_frontend.data.datasourceimpl.AuthDataSourceImpl
 import com.example.seollyongdan_frontend.data.datasourceimpl.CommunityDataSourceImpl
 import com.example.seollyongdan_frontend.data.datasourceimpl.HomeDataSourceImpl
+import com.example.seollyongdan_frontend.data.datasourceimpl.SearchDataSourceImpl
 import com.example.seollyongdan_frontend.data.datasourceimpl.UserDataSourceImpl
 import dagger.Binds
 import dagger.Module
@@ -51,6 +53,14 @@ abstract class DataSourceModule {
     abstract fun bindUserDataSource(
         userDataSourceImpl: UserDataSourceImpl
     ) : UserDataSource
+
+
+    @Binds
+    @Singleton
+    abstract fun bindSearchDataSource(
+        searchDataSourceImpl: SearchDataSourceImpl
+    ) : SearchDataSource
+
 
     @Binds
     @Singleton

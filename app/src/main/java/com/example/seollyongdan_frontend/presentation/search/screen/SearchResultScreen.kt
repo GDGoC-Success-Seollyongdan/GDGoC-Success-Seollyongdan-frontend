@@ -16,27 +16,26 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.seollyongdan_frontend.R
+import com.example.seollyongdan_frontend.presentation.main.screen.MainViewModel
 import com.example.seollyongdan_frontend.presentation.search.navigation.SearchNavigator
 import com.example.seollyongdan_frontend.ui.component.DistrictButton
 import com.example.seollyongdan_frontend.ui.theme.Gray50
-import com.example.seollyongdan_frontend.ui.theme.Primary500
-import com.example.seollyongdan_frontend.ui.theme.Primary600
-import com.example.seollyongdan_frontend.ui.theme.Primary700
 import com.example.seollyongdan_frontend.ui.theme.Primary900
 import com.example.seollyongdan_frontend.ui.theme.White
-import com.example.seollyongdan_frontend.ui.theme.b1Semi
 import com.example.seollyongdan_frontend.ui.theme.h4Bold
 import com.example.seollyongdan_frontend.ui.theme.h4Semi
 import com.example.seollyongdan_frontend.ui.theme.h5Semi
@@ -45,9 +44,15 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 @Composable
 fun SearchResultRoute(
-    navigator: SearchNavigator
+    navigator: SearchNavigator,
+    safety : String,
+    traffic : String,
+    real_estate : String,
+    amenities : String
 ){
     val systemUiController = rememberSystemUiController()
+    val searchViewModel: SearchViewModel = hiltViewModel()
+    val mainViewModel: MainViewModel = hiltViewModel()
 
     SideEffect {
         systemUiController.setStatusBarColor(
@@ -56,14 +61,40 @@ fun SearchResultRoute(
     }
 
     SearchResultScreen(
-        onBackClick = { navigator.navigateBack() }
+        onBackClick = { navigator.navigateBack() },
+        searchViewModel = searchViewModel,
+        mainViewModel = mainViewModel,
+        safety = safety,
+        traffic = traffic,
+        real_estate = real_estate,
+        amenities = amenities
     )
 }
 
 @Composable
 fun SearchResultScreen(
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
+    searchViewModel: SearchViewModel,
+    mainViewModel: MainViewModel,
+    safety : String,
+    traffic : String,
+    real_estate : String,
+    amenities : String
 ) {
+    val safetyValue by searchViewModel.safety.collectAsState()
+    val trafficValue by searchViewModel.traffic.collectAsState()
+    val realEstateValue by searchViewModel.realEstate.collectAsState()
+    val amenitiesValue by searchViewModel.amenities.collectAsState()
+
+    val town by searchViewModel.town.collectAsState()
+    val description by searchViewModel.townDescription.collectAsState()
+    val userDto by mainViewModel.userDto.collectAsStateWithLifecycle()
+    val userName = userDto?.nickname ?: "이눈송"
+
+    LaunchedEffect(Unit){
+        searchViewModel.postSearchFilter(safety, traffic, real_estate, amenities)
+    }
+
 
     Column(
         modifier = Modifier
@@ -83,10 +114,10 @@ fun SearchResultScreen(
             )
         }
         Spacer(modifier = Modifier.height(27.dp))
-        //FIXME 백에서 정보 받아오기
+
         Row {
             Text(
-                "김눈송",
+                text = "${userName}",
                 style = h4Bold
             )
             Text(
@@ -96,7 +127,7 @@ fun SearchResultScreen(
         }
         Spacer(modifier = Modifier.height(12.dp))
         Text(
-            "빠르고 효율적인 경제 중심지",
+            text = "${description}",
             style = h5Semi,
             color = Primary900
         )
@@ -124,7 +155,7 @@ fun SearchResultScreen(
                             style = h7Bold
                         )
                         Text(
-                            "우수",
+                            "${safetyValue}",
                             style = h4Semi,
                             color = Primary900
                         )
@@ -154,7 +185,7 @@ fun SearchResultScreen(
                             style = h7Bold
                         )
                         Text(
-                            "우수",
+                            "${trafficValue ?: "알 수 없음"}",
                             style = h4Semi,
                             color = Primary900
                         )
@@ -186,7 +217,7 @@ fun SearchResultScreen(
                             style = h7Bold
                         )
                         Text(
-                            "우수",
+                            "${realEstateValue}",
                             style = h4Semi,
                             color = Primary900
                         )
@@ -216,7 +247,7 @@ fun SearchResultScreen(
                             style = h7Bold
                         )
                         Text(
-                            "우수",
+                            "${amenitiesValue}",
                             style = h4Semi,
                             color = Primary900
                         )
@@ -230,22 +261,16 @@ fun SearchResultScreen(
             style = h4Semi
         )
         Spacer(modifier = Modifier.height(10.dp))
-        Text(
-            "클릭하면 메인페이지의 동네가 해당 동네로 설정되며\n 상세 정보를 확인해볼 수 있습니다.",
-            style = b1Semi,
-            color = Primary900
-        )
+        //Text(
+        //    "클릭하면 메인페이지의 동네가 해당 동네로 설정되며\n 상세 정보를 확인해볼 수 있습니다.",
+        //    style = b1Semi,
+        //    color = Primary900
+        //)
         Spacer(modifier = Modifier.height(38.dp))
-        DistrictButton(color = Primary900, district = "종로구", onClick = {})
-        Spacer(modifier = Modifier.height(10.dp))
-        DistrictButton(color = Primary700, district = "중구", onClick = {})
-        Spacer(modifier = Modifier.height(10.dp))
-        DistrictButton(color = Primary600, district = "마포구", onClick = {})
+        town?.forEach { district ->
+            DistrictButton(color = Primary900, district = district, onClick = {
+            })
+            Spacer(modifier = Modifier.height(10.dp))
+        }
     }
-}
-
-@Preview
-@Composable
-fun SearchResultScreenPreview() {
-    SearchResultScreen(onBackClick = {})
 }

@@ -41,6 +41,8 @@ object ApiKeyStorage {
     const val PROPERTIES = "properties"
     const val COMMERCIAL = "commercial"
     const val COMMENT = "comment"
+    const val PREFERENCE = "preference"
+
 
 }
 

@@ -5,12 +5,14 @@ import com.example.seollyongdan_frontend.data.repositoryimpl.CommunityRepository
 import com.example.seollyongdan_frontend.data.repositoryimpl.ExampleRepositoryImpl
 import com.example.seollyongdan_frontend.data.repositoryimpl.HomeRepositoryImpl
 import com.example.seollyongdan_frontend.data.repositoryimpl.RegionRepositoryImpl
+import com.example.seollyongdan_frontend.data.repositoryimpl.SearchRepositoryImpl
 import com.example.seollyongdan_frontend.data.repositoryimpl.UserRepositoryImpl
 import com.example.seollyongdan_frontend.domain.repository.AuthRepository
 import com.example.seollyongdan_frontend.domain.repository.CommunityRepository
 import com.example.seollyongdan_frontend.domain.repository.ExampleRepository
 import com.example.seollyongdan_frontend.domain.repository.HomeRepository
 import com.example.seollyongdan_frontend.domain.repository.RegionRepository
+import com.example.seollyongdan_frontend.domain.repository.SearchRepository
 import com.example.seollyongdan_frontend.domain.repository.UserRepository
 import dagger.Binds
 import dagger.Module
@@ -51,6 +53,15 @@ abstract class RepositoryModule {
     abstract fun bindUserRepository(
         userRepositoryImpl: UserRepositoryImpl
     ) : UserRepository
+
+
+    @Binds
+    @Singleton
+    abstract fun bindSearchRepository(
+        searchRepositoryImpl: SearchRepositoryImpl
+    ) : SearchRepository
+
+
 
     @Binds
     @Singleton

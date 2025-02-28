@@ -5,6 +5,7 @@ import com.example.seollyongdan_frontend.data.service.CommunityApiService
 import com.example.seollyongdan_frontend.data.service.ExampleApiService
 import com.example.seollyongdan_frontend.data.service.HomeApiService
 import com.example.seollyongdan_frontend.data.service.RegionApiService
+import com.example.seollyongdan_frontend.data.service.SearchApiService
 import com.example.seollyongdan_frontend.data.service.UserApiService
 import dagger.Binds
 import dagger.Module
@@ -46,6 +47,13 @@ class ServiceModule {
     fun bindUserApiService(
         @SeollyongdanRetrofit retrofit: Retrofit
     ) : UserApiService = retrofit.create(UserApiService::class.java)
+
+    @Provides
+    @Singleton
+    fun bindSearchApiService(
+        @SeollyongdanRetrofit retrofit: Retrofit
+    ) : SearchApiService = retrofit.create(SearchApiService::class.java)
+
 
     @Provides
     @Singleton
