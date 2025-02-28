@@ -94,7 +94,7 @@ fun BottomSheetRealEstateScreen(
                         append(districtName)
                     }
                     withStyle(style = SpanStyle(Color.Black)) {
-                        append(" 생활/편의시설")
+                        append(" 부동산")
                     }
                 },
                 style = h5Bold

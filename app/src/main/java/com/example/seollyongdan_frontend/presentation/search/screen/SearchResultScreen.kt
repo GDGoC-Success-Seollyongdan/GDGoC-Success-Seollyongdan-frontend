@@ -16,7 +16,11 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,9 +29,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.seollyongdan_frontend.R
+import com.example.seollyongdan_frontend.presentation.main.screen.MainViewModel
 import com.example.seollyongdan_frontend.presentation.search.navigation.SearchNavigator
 import com.example.seollyongdan_frontend.ui.component.DistrictButton
 import com.example.seollyongdan_frontend.ui.theme.Gray50
@@ -48,6 +55,8 @@ fun SearchResultRoute(
     navigator: SearchNavigator
 ){
     val systemUiController = rememberSystemUiController()
+    val searchViewModel: SearchViewModel = hiltViewModel()
+    val mainViewModel: MainViewModel = hiltViewModel()
 
     SideEffect {
         systemUiController.setStatusBarColor(
@@ -56,14 +65,32 @@ fun SearchResultRoute(
     }
 
     SearchResultScreen(
-        onBackClick = { navigator.navigateBack() }
+        onBackClick = { navigator.navigateBack() },
+        searchViewModel = searchViewModel,
+        mainViewModel = mainViewModel
     )
 }
 
 @Composable
 fun SearchResultScreen(
-    onBackClick: () -> Unit
+    onBackClick: () -> Unit,
+    searchViewModel: SearchViewModel,
+    mainViewModel: MainViewModel
 ) {
+    val safety by searchViewModel.safety.collectAsState()
+    val traffic by searchViewModel.traffic.collectAsState()
+    val realEstate by searchViewModel.realEstate.collectAsState()
+    val amenities by searchViewModel.amenities.collectAsState()
+
+    val town by searchViewModel.town.collectAsState()
+    val description by searchViewModel.townDescription.collectAsState()
+    val userDto by mainViewModel.userDto.collectAsStateWithLifecycle()
+    val userName = userDto?.nickname ?: "이눈송"
+
+    LaunchedEffect(Unit) {
+        searchViewModel.postSearchFilter("default", "default", "default", "default")
+    }
+
 
     Column(
         modifier = Modifier
@@ -83,10 +110,10 @@ fun SearchResultScreen(
             )
         }
         Spacer(modifier = Modifier.height(27.dp))
-        //FIXME 백에서 정보 받아오기
+
         Row {
             Text(
-                "김눈송",
+                text = "${userName}",
                 style = h4Bold
             )
             Text(
@@ -96,7 +123,7 @@ fun SearchResultScreen(
         }
         Spacer(modifier = Modifier.height(12.dp))
         Text(
-            "빠르고 효율적인 경제 중심지",
+            text = "${description}",
             style = h5Semi,
             color = Primary900
         )
@@ -124,7 +151,7 @@ fun SearchResultScreen(
                             style = h7Bold
                         )
                         Text(
-                            "우수",
+                            "${safety}",
                             style = h4Semi,
                             color = Primary900
                         )
@@ -154,7 +181,7 @@ fun SearchResultScreen(
                             style = h7Bold
                         )
                         Text(
-                            "우수",
+                            "${traffic ?: "알 수 없음"}",
                             style = h4Semi,
                             color = Primary900
                         )
@@ -186,7 +213,7 @@ fun SearchResultScreen(
                             style = h7Bold
                         )
                         Text(
-                            "우수",
+                            "${realEstate}",
                             style = h4Semi,
                             color = Primary900
                         )
@@ -216,7 +243,7 @@ fun SearchResultScreen(
                             style = h7Bold
                         )
                         Text(
-                            "우수",
+                            "${amenities}",
                             style = h4Semi,
                             color = Primary900
                         )
@@ -236,16 +263,10 @@ fun SearchResultScreen(
             color = Primary900
         )
         Spacer(modifier = Modifier.height(38.dp))
-        DistrictButton(color = Primary900, district = "종로구", onClick = {})
-        Spacer(modifier = Modifier.height(10.dp))
-        DistrictButton(color = Primary700, district = "중구", onClick = {})
-        Spacer(modifier = Modifier.height(10.dp))
-        DistrictButton(color = Primary600, district = "마포구", onClick = {})
+        town?.forEach { district ->
+            DistrictButton(color = Primary900, district = district, onClick = {
+            })
+            Spacer(modifier = Modifier.height(10.dp))
+        }
     }
-}
-
-@Preview
-@Composable
-fun SearchResultScreenPreview() {
-    SearchResultScreen(onBackClick = {})
 }

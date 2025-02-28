@@ -29,6 +29,8 @@
     import androidx.compose.ui.graphics.Color
     import androidx.compose.ui.tooling.preview.Preview
     import androidx.compose.ui.unit.dp
+    import androidx.hilt.navigation.compose.hiltViewModel
+    import androidx.lifecycle.viewmodel.compose.viewModel
     import com.example.seollyongdan_frontend.R
     import com.example.seollyongdan_frontend.data.dto.response.ResponseUserDto
     import com.example.seollyongdan_frontend.presentation.search.navigation.SearchNavigator
@@ -67,6 +69,7 @@
         val sheetState = rememberModalBottomSheetState()
         val coroutineScope = rememberCoroutineScope()
         var showBottomSheet = remember { mutableStateOf(false) }
+        val searchViewModel: SearchViewModel = hiltViewModel()
     
         Scaffold (
             topBar = {
@@ -120,7 +123,8 @@
                         if (showBottomSheet.value) {
                             BottomSheetSearchFilter(
                                 onDismiss = { showBottomSheet.value = false },
-                                onClickToSearchResult = onClickToSearchResult
+                                onClickToSearchResult = onClickToSearchResult,
+                                searchViewModel = searchViewModel
                             )
                         }
                         Spacer(modifier = Modifier.height(45.dp))
