@@ -5,6 +5,7 @@ import com.example.seollyongdan_frontend.data.dto.request.RequestCommentPostDto
 import com.example.seollyongdan_frontend.data.dto.request.RequestCommunityNewPostDto
 import com.example.seollyongdan_frontend.data.dto.response.ResponseCommunityPostCommentDto
 import com.example.seollyongdan_frontend.data.dto.response.ResponseCommunityPostDto
+import com.example.seollyongdan_frontend.data.service.ApiKeyStorage.COMMENT
 import com.example.seollyongdan_frontend.data.service.ApiKeyStorage.COMMENTS
 import com.example.seollyongdan_frontend.data.service.ApiKeyStorage.DISTRICT
 import com.example.seollyongdan_frontend.data.service.ApiKeyStorage.POSTS
@@ -37,7 +38,7 @@ interface CommunityApiService {
         @Path("postId") postId: Int
     ) : SeollyongdanBaseResponse<ResponseCommunityPostDto>
 
-    @GET("/$POSTS/{postId}/$COMMENTS")
+    @POST("/$POSTS/{postId}/$COMMENT")
     suspend fun postComment(
         @Path("postId") postId: Int,
         @Body requestCommentPostDto: RequestCommentPostDto

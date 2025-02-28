@@ -88,7 +88,7 @@ class CommunityRepositoryImpl @Inject constructor(
         keyword: String
     ): Result<List<ResponseCommunityPostDto>> {
         return runCatching {
-            val response = communityDataSource.getAllPosts(district)
+            val response = communityDataSource.getPostSearch(district,keyword)
             val result = response.result ?: throw Exception("Result is Null")
 
             result.map { post ->

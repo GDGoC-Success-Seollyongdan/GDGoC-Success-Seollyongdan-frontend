@@ -13,6 +13,8 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.material3.VerticalDivider
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -33,13 +35,19 @@ fun LifeTable(
     data: List<String>,
     lifeViewModel: LifeViewModel
 ) {
-    //FIXME 백에서 받아 오기
+    // State 값들을 읽어옵니다
+    val top1Commercial by remember { lifeViewModel.top1Commercial }
+    val top2Commercial by remember { lifeViewModel.top2Commercial }
+    val top3Commercial by remember { lifeViewModel.top3Commercial }
+    val top4Commercial by remember { lifeViewModel.top4Commercial }
+
+    // 테이블 데이터 구성
     val tableData = listOf(
         listOf("카테고리", "개수"), // 헤더
-        listOf(lifeViewModel.top1Commercial ?: "", data[0]),
-        listOf(lifeViewModel.top2Commercial ?: "", data[1]),
-        listOf(lifeViewModel.top3Commercial ?: "", data[2]),
-        listOf(lifeViewModel.top4Commercial ?: "", data[3])
+        listOf(top1Commercial ?: "", data[0]),
+        listOf(top2Commercial ?: "", data[1]),
+        listOf(top3Commercial ?: "", data[2]),
+        listOf(top4Commercial ?: "", data[3])
     )
 
     Column(
@@ -55,7 +63,6 @@ fun LifeTable(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(if (rowIndex == 0) Gray100 else White)
-
             ) {
                 row.forEachIndexed { cellIndex, cell ->
                     Text(
@@ -84,5 +91,3 @@ fun LifeTable(
         }
     }
 }
-
-
